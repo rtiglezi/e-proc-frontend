@@ -32,30 +32,39 @@
         </b-row>
         <b-row>
           <b-col md="6" sm="12">
-            <b-form-group label="Login:" label-for="user-login">
-              <b-form-input
-                id="user-login"
-                type="text"
-                :readonly="mode === 'remove'"
-                v-model="user.login"
-                required
-                placeholder="Informe o login do usuário..."
-              />
+            <b-form-group label="Perfis do usuário:" label-for="user-profiles">
+              <b-form-checkbox-group
+                stacked
+                id="user-profiles"
+                v-model="user.profiles"
+                name="profiles"
+              >
+                <b-form-checkbox value="user">User</b-form-checkbox>
+                <b-form-checkbox value="admin">Admin</b-form-checkbox>
+                <b-form-checkbox value="master">Master</b-form-checkbox>
+              </b-form-checkbox-group>
             </b-form-group>
           </b-col>
           <b-col md="6" sm="12">
-            <b-form-group label="Cargos:" label-for="user-cargos">
-              <b-form-input
-                id="user-cargos"
-                type="text"
-                :readonly="mode === 'remove'"
-                v-model="user.profiles"
-                required
-                placeholder="Informe os cargos do usuário..."
-              />
+            <b-form-group label="Unidades a que tem acesso:" label-for="user-allowedDivisions">
+              <b-form-checkbox-group
+                stacked
+                id="user-allowedDivisions"
+                v-model="user.allowedDivisions"
+                name="divisions"
+              >
+                <b-form-checkbox
+                  v-for="division in divisions"
+                  :key="division._id"
+                  :value="division._id"
+                >{{ division.name }}</b-form-checkbox>
+              </b-form-checkbox-group>
             </b-form-group>
           </b-col>
         </b-row>
+
+        <hr>
+
         <div class="right">
           <b-button variant="primary" v-if="mode === 'save'" @click="save">Salvar</b-button>
           <b-button variant="danger" v-if="mode === 'remove'" @click="remove">Excluir o Registro</b-button>
@@ -66,13 +75,13 @@
 
     <hr>
 
-    <div class="total">Listando um total de {{ this.users.length }} registro(s)</div>
+    <div class="total">Total de {{ totalRows }} registro(s)</div>
 
     <b-pagination
       size="sm"
       align="center"
       v-model="currentPage"
-      :total-rows="rows"
+      :total-rows="totalRows"
       :per-page="perPage"
       first-text="Primeira"
       prev-text="Anterior"
@@ -81,27 +90,48 @@
       aria-controls="my-table"
     ></b-pagination>
 
-    <div class="card card-table">
-      <b-table
-        id="my-table"
-        :items="users"
-        :per-page="perPage"
-        :current-page="currentPage"
-        small
-        hover
-        striped
-        :fields="fields"
-      >
-        <template slot="actions" slot-scope="data">
-          <b-button variant="warning" @click="loadUser(data.item)" class="mr-2">
-            <i class="fa fa-pencil"></i>
-          </b-button>
-          <b-button variant="danger" @click="loadUser(data.item, 'remove')" class="mr-2">
-            <i class="fa fa-trash"></i>
-          </b-button>
-        </template>
-      </b-table>
-    </div>
+    <b-row>
+      <b-col md="8">
+        <b-form-group label="Filtro" class="mb0">
+          <b-input-group>
+            <b-form-input v-model="filter" placeholder="Digite o termo..."></b-form-input>
+            <b-input-group-append>
+              <b-button :disabled="!filter" @click="filter = ''">Limpar</b-button>
+            </b-input-group-append>
+          </b-input-group>
+        </b-form-group>
+      </b-col>
+
+      <b-col md="4">
+        <b-form-group label-cols-sm="3" label="Registros por página" class="mb-0">
+          <b-form-select v-model="perPage" :options="pageOptions"></b-form-select>
+        </b-form-group>
+      </b-col>
+    </b-row>
+
+    <b-table
+      id="my-table"
+      :items="users"
+      :per-page="perPage"
+      :current-page="currentPage"
+      small
+      hover
+      striped
+      responsive
+      bordered
+      :filter="filter"
+      :fields="fields"
+      @filtered="onFiltered"
+    >
+      <template slot="actions" slot-scope="data">
+        <b-button variant="warning" @click="loadUser(data.item)" class="mr-2">
+          <i class="fa fa-pencil"></i>
+        </b-button>
+        <b-button variant="danger" @click="loadUser(data.item, 'remove')" class="mr-2">
+          <i class="fa fa-trash"></i>
+        </b-button>
+      </template>
+    </b-table>
   </div>
 </template>
 
@@ -115,8 +145,13 @@ export default {
     return {
       btnCancelDisabled: false,
       mode: "save",
-      perPage: 5,
+      totalRows: 1,
+      filter: null,
       currentPage: 1,
+      perPage: 5,
+      pageOptions: [5, 10, 15],
+      currentPage: 1,
+      divisions: [],
       user: {},
       users: [],
       fields: [
@@ -136,27 +171,24 @@ export default {
         },
         { key: "name", label: "Nome", sortable: true },
         { key: "email", label: "E-mail", sortable: true },
-        { key: "login", label: "Login", sortable: true },
-        { key: "profiles", label: "Cargos", sortable: true },
-        {
-          key: "allowedDivision",
-          label: "Unidades Permitidas",
-          sortable: true
-        },
+        { key: "profiles", label: "Perfis", sortable: true },
         { key: "actions", label: "Ações", sortable: false }
       ]
     };
   },
-  computed: {
-    rows() {
-      return this.users.length;
-    }
-  },
+  computed: {},
   methods: {
+    loadDivisions() {
+      const url = `${baseApiUrl}/divisions`;
+      axios.get(url).then(res => {
+        this.divisions = res.data.items;
+      });
+    },
     loadUsers() {
       const url = `${baseApiUrl}/users`;
       axios.get(url).then(res => {
         this.users = res.data.items;
+        this.totalRows = users.length;
         this.setFocus();
         this.$refs.cancelar.innerHTML = "Limpar";
       });
@@ -172,7 +204,9 @@ export default {
       axios[method](`${baseApiUrl}/users${id}`, this.user)
         .then(() => {
           this.$toasted.global.defaultSuccess();
+          let lastUser = this.user;
           this.reset();
+          this.loadUser(lastUser);
         })
         .catch(showError);
     },
@@ -189,14 +223,21 @@ export default {
     loadUser(user, mode = "save") {
       this.mode = mode;
       this.user = { ...user };
+      this.totalRows = 1;
       this.setFocus();
     },
     setFocus() {
       this.$refs.name.$el.focus();
       this.$refs.cancelar.innerHTML = "Cancelar";
+    },
+    onFiltered(filteredItems) {
+      // Trigger pagination to update the number of buttons/pages due to filtering
+      this.totalRows = filteredItems.length;
+      this.currentPage = 1;
     }
   },
   mounted() {
+    this.loadDivisions();
     this.loadUsers();
   }
 };
@@ -209,9 +250,6 @@ export default {
 .card-form {
   padding: 15px;
   background-color: #ececec;
-}
-.card-table {
-  background-color: #fff;
 }
 .total {
   text-align: center;
