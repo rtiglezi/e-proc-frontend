@@ -1,5 +1,11 @@
 <template>
+
+
+
   <div class="user-admin">
+
+
+
     <div class="text-left">
       <router-link to="/admin/user/cad" class="a-admin">
         <i class="fa fa-plus-square mr-1"></i>Formulário
@@ -14,10 +20,10 @@
       <div class="card card-form">
         <b-row>
           <b-col md="6" sm="12">
-            <b-form-group label="Nome:" label-for="user-name">
+            <b-form-group label="Nome:" label-for="userName">
               <b-form-input
-                ref="user-name"
-                id="user-name"
+                ref="userName"
+                id="userName"
                 v-model="user.name"
                 :readonly="mode === 'remove'"
               />
@@ -93,9 +99,14 @@
   </div>
 </template>
 
+
+
+
 <script>
 import { baseApiUrl, showError } from "@/global";
 import axios from "axios";
+
+//cdnjs.cloudflare.com/ajax/libs/vee-validate/2.2.11/locale/pt_BR.js
 
 export default {
   name: "UserAdminCad",
@@ -107,7 +118,7 @@ export default {
       divisions: [],
       options: [],
       user: {},
-      myObj: {},
+      myObj: {}
     };
   },
   methods: {
@@ -144,7 +155,7 @@ export default {
         .catch(showError);
     },
     setFocus() {
-      this.$refs.user-name.$el.focus();
+      this.$refs.userName.$el.focus();
     },
     goToList() {
       this.$router.push(`/user/list`);
@@ -156,8 +167,7 @@ export default {
     }
   },
   mounted() {
-    this.myObj = this.$refs.name;
-
+  
     const id = this.$route.params.id;
     this.mode = this.$route.params.mode;
     if (!this.mode) {
