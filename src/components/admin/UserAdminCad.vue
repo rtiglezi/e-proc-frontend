@@ -1,51 +1,31 @@
 <template>
   <div class="user-admin">
-    <PageTitle icon="fa fa-cogs" main="Usuários" sub="Formulário de cadastro"/>
-    
-    <div class="card text-center">
-      <div class="card-header">
-        <ul class="nav nav-tabs card-header-tabs">
-          <li class="nav-item">
-            <router-link to="/user/cad">
-              <a class="nav-link active"><i class="fa fa-address-card"></i> Formulário</a>
-            </router-link>
-          </li>
-          <li class="nav-item">
-            <router-link to="/user/list">
-              <a class="nav-link"><i class="fa fa-list-alt"></i> Lista</a>
-            </router-link>
-          </li>
-        </ul>
-      </div>
+    <div class="text-left">
+      <router-link to="/admin/user/cad" class="a-admin">
+        <i class="fa fa-plus-square mr-1"></i>Formulário
+      </router-link>
+      <span class="ml-3"></span>
+      <router-link to="/admin/user/list" class="a-admin">
+        <i class="fa fa-th-list mr-1"></i>Listagem
+      </router-link>
     </div>
 
-    <div class="card card-form">
-      <b-form>
-        <input id="user-id" type="hidden" v-model="user._id">
+    <b-form class="form">
+      <div class="card card-form">
         <b-row>
           <b-col md="6" sm="12">
             <b-form-group label="Nome:" label-for="user-name">
               <b-form-input
-                ref="name"
+                ref="user-name"
                 id="user-name"
-                type="text"
-                :readonly="mode === 'remove'"
                 v-model="user.name"
-                required
-                placeholder="Informe o nome do usuário..."
+                :readonly="mode === 'remove'"
               />
             </b-form-group>
           </b-col>
           <b-col md="6" sm="12">
             <b-form-group label="E-mail:" label-for="user-email">
-              <b-form-input
-                id="user-email"
-                type="text"
-                :readonly="mode === 'remove'"
-                v-model="user.email"
-                required
-                placeholder="Informe o e-mail do usuário..."
-              />
+              <b-form-input id="user-email" v-model="user.email" :readonly="mode === 'remove'"/>
             </b-form-group>
           </b-col>
         </b-row>
@@ -82,61 +62,54 @@
             </b-form-group>
           </b-col>
         </b-row>
-
-        <hr>
-
-        <div class="right">
-          <b-button
-            variant="primary"
-            class="ml-2"
-            v-if="mode === 'save'"
-            @click="save"
-          >Adicionar este usuário</b-button>
-          <b-button
-            variant="warning"
-            class="ml-2"
-            v-if="mode === 'edit'"
-            @click="save"
-          >Confirmar as alterações ?</b-button>
-          <b-button
-            variant="danger"
-            class="ml-2"
-            v-if="mode === 'remove'"
-            @click="remove"
-          >Excluir esse usuário ?</b-button>
-          <b-button
-            variant="default"
-            class="ml-2"
-            v-if="(mode === 'edit') || (mode === 'remove')"
-            @click="refreshPage"
-          >Cancelar</b-button>
-
-         
-        </div>
-      </b-form>
-    </div>
+      </div>
+      <div class="right">
+        <b-button
+          variant="primary"
+          class="ml-2"
+          v-if="mode === 'save'"
+          @click="save"
+        >Adicionar este usuário</b-button>
+        <b-button
+          variant="warning"
+          class="ml-2"
+          v-if="mode === 'edit'"
+          @click="save"
+        >Confirmar as alterações ?</b-button>
+        <b-button
+          variant="danger"
+          class="ml-2"
+          v-if="mode === 'remove'"
+          @click="remove"
+        >Excluir esse usuário ?</b-button>
+        <b-button
+          variant="default"
+          class="ml-2"
+          v-if="(mode === 'edit') || (mode === 'remove')"
+          @click="refreshPage"
+        >Cancelar</b-button>
+      </div>
+    </b-form>
   </div>
 </template>
 
 <script>
 import { baseApiUrl, showError } from "@/global";
 import axios from "axios";
-import PageTitle from "../template/PageTitle";
 
 export default {
   name: "UserAdminCad",
-  components: { PageTitle },
+  components: {},
   data: function() {
     return {
-      mode: "",
       btnCancelDisabled: false,
       mode: "save",
       divisions: [],
       options: [],
-      user: {}
+      user: {},
+      myObj: {},
     };
   },
-  computed: {},
   methods: {
     loadDivisions() {
       const url = `${baseApiUrl}/divisions`;
@@ -171,7 +144,7 @@ export default {
         .catch(showError);
     },
     setFocus() {
-      this.$refs.name.$el.focus();
+      this.$refs.user-name.$el.focus();
     },
     goToList() {
       this.$router.push(`/user/list`);
@@ -183,6 +156,8 @@ export default {
     }
   },
   mounted() {
+    this.myObj = this.$refs.name;
+
     const id = this.$route.params.id;
     this.mode = this.$route.params.mode;
     if (!this.mode) {
@@ -200,16 +175,25 @@ export default {
 .right {
   text-align: left;
 }
+
 .card-form {
   padding: 15px;
-  background-color: white;
+  background-color: #f8f9fa;
+  margin-bottom: 10px;
 }
 .total {
   text-align: center;
   margin-bottom: 5px;
   color: rgb(15, 78, 23);
 }
-.act {
-  background-color: red;
+.a-admin {
+  color: green;
+}
+.red {
+  color: red;
+}
+
+.green {
+  color: green;
 }
 </style>

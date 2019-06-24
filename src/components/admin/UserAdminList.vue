@@ -1,60 +1,50 @@
 <template>
   <div class="user-admin">
-    <PageTitle icon="fa fa-cogs" main="Usuários" sub="Lista dos usuários cadastrados"/>
-
-    <div class="card text-center">
-      <div class="card-header">
-        <ul class="nav nav-tabs card-header-tabs">
-          <li class="nav-item">
-            <router-link to="/user/cad">
-             <a class="nav-link"><i class="fa fa-address-card"></i> Formulário</a> 
-            </router-link>
-          </li>
-          <li class="nav-item">
-            <router-link to="/user/list">
-              <a class="nav-link active"><i class="fa fa-list-alt"></i> Lista</a>
-            </router-link>
-          </li>
-        </ul>
-      </div>
+    <div class="text-left">
+      <router-link to="/admin/user/cad" class="a-admin">
+        <i class="fa fa-plus-square mr-1"></i>Formulário
+      </router-link>
+      <span class="ml-3"></span>
+      <router-link to="/admin/user/list" class="a-admin">
+        <i class="fa fa-th-list mr-1"></i>Listagem
+      </router-link>
     </div>
 
     <div class="card card-form">
-      <div class="total">Total de {{ totalRows }} registro(s)</div>
+     
+        <b-row>
+          <b-col>
+            <b-form-group label="Busca rápida:">
+              <b-input-group>
+                <b-form-input v-model="filter" placeholder="Digite o termo ..."></b-form-input>
+                <b-input-group-append>
+                  <b-button :disabled="!filter" @click="filter = ''">Limpar</b-button>
+                </b-input-group-append>
+              </b-input-group>
+            </b-form-group>
+          </b-col>
+          <b-col>
+            <div class="mb-2 text-center">Total de {{ totalRows }} registro(s)</div>
+            <b-pagination
+              v-model="currentPage"
+              :total-rows="totalRows"
+              :per-page="perPage"
+              first-text="Primeira"
+              prev-text="Anterior"
+              next-text="Próxima"
+              last-text="Última"
+              aria-controls="my-table"
+            ></b-pagination>
+          </b-col>
+          <b-col>
+            <b-form-group label-cols-sm="3" label="Registros por página:" class="mb-0">
+              <b-form-select v-model="perPage" :options="pageOptions"></b-form-select>
+            </b-form-group>
+          </b-col>
+        </b-row>
+ 
 
-      <b-pagination
-        size="sm"
-        align="center"
-        v-model="currentPage"
-        :total-rows="totalRows"
-        :per-page="perPage"
-        first-text="Primeira"
-        prev-text="Anterior"
-        next-text="Próxima"
-        last-text="Última"
-        aria-controls="my-table"
-      ></b-pagination>
-
-      <b-row>
-        <b-col md="8">
-          <b-form-group label="Filtro" class="mb0">
-            <b-input-group>
-              <b-form-input v-model="filter" placeholder="Digite o termo..."></b-form-input>
-              <b-input-group-append>
-                <b-button :disabled="!filter" @click="filter = ''">Limpar</b-button>
-              </b-input-group-append>
-            </b-input-group>
-          </b-form-group>
-        </b-col>
-
-        <b-col md="4">
-          <b-form-group label-cols-sm="3" label="Registros por página" class="mb-0">
-            <b-form-select v-model="perPage" :options="pageOptions"></b-form-select>
-          </b-form-group>
-        </b-col>
-      </b-row>
-
-      <b-table
+      <b-table class="table"
         id="my-table"
         :items="users"
         :per-page="perPage"
@@ -99,13 +89,12 @@
 
 
 <script>
-import { baseApiUrl, showError } from "@/global";
+import { baseApiUrl } from "@/global";
 import axios from "axios";
-import PageTitle from "../template/PageTitle";
 
 export default {
   name: "UserAdminList",
-  components: { PageTitle },
+  components: {},
   data: function() {
     return {
       totalRows: 1,
@@ -113,7 +102,6 @@ export default {
       currentPage: 1,
       perPage: 5,
       pageOptions: [5, 10, 15],
-      currentPage: 1,
       options: [],
       user: {},
       users: [],
@@ -154,7 +142,7 @@ export default {
       });
     },
     loadUser(user, mode) {
-      this.$router.push(`/user/cad/${user._id}/${mode}`);
+      this.$router.push(`/admin/user/cad/${user._id}/${mode}`);
     },
     onFiltered(filteredItems) {
       // Trigger pagination to update the number of buttons/pages due to filtering
@@ -171,11 +159,5 @@ export default {
 <style>
 .right {
   text-align: left;
-}
-
-.total {
-  text-align: center;
-  margin-bottom: 5px;
-  color: rgb(15, 78, 23);
 }
 </style>
