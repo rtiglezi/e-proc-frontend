@@ -75,11 +75,11 @@
         </template>
 
         <template slot="actions" slot-scope="data">
-          <b-button variant="warning" @click="loadUser(data.item, 'edit')" class="mr-2">
-            <i class="fa fa-pencil"></i>
+          <b-button variant="default" @click="loadUser(data.item, 'edit')" class="mr-2">
+            <i class="fa fa-pencil edit"></i>
           </b-button>
-          <b-button variant="danger" @click="loadUser(data.item, 'remove')" class="mr-2">
-            <i class="fa fa-trash"></i>
+          <b-button variant="default" @click="loadUser(data.item, 'remove')" class="mr-2">
+            <i class="fa fa-trash delete"></i>
           </b-button>
         </template>
       </b-table>
@@ -157,7 +157,13 @@ export default {
 </script>
 
 <style>
-.right {
-  text-align: left;
+.edit {
+  font-size: 18px;
+  color: #555;
+}
+
+.delete {
+  font-size: 18px;
+  color: red;
 }
 </style>

@@ -8,11 +8,7 @@
 
 <script>
 
-import UserAdminCad from "./UserAdminCad";
-import UserAdminList from "./UserAdminList";
-
 export default {
-  components: { UserAdminCad, UserAdminList },
   name: "UserAdmin"
 };
 </script>
