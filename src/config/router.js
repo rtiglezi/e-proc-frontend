@@ -5,8 +5,6 @@ import Home from "@/components/home/Home";
 import AdminPages from "@/components/admin/AdminPages";
 
 import UserAdmin from "@/components/admin/UserAdmin";
-import UserAdminCad from "@/components/admin/UserAdminCad";
-import UserAdminList from "@/components/admin/UserAdminList";
 
 Vue.use(VueRouter);
 
@@ -25,19 +23,7 @@ const routes = [
       {
         path: "user",
         component: UserAdmin,
-        meta: { requiresAdmin: true },
-        children: [
-          {
-            path: "cad/:id?/:mode?",
-            component: UserAdminCad,
-            meta: { requiresAdmin: true }
-          },
-          {
-            path: "list",
-            component: UserAdminList,
-            meta: { requiresAdmin: true }
-          }
-        ]
+        meta: { requiresAdmin: true }
       }
     ]
   }

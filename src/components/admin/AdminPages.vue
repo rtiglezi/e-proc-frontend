@@ -12,7 +12,7 @@
       <b-card no-body>
         <b-tabs card>
           <b-tab title="Usuários" active>
-            <UserAdmin/>
+            <UserAdmin />
           </b-tab>
           <b-tab title="Unidades">.....</b-tab>
         </b-tabs>
