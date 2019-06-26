@@ -4,11 +4,15 @@
         <a class="toggle" @click="toggleMenu" v-if="!hideToggle">
             <i class="fa fa-lg" :class="icon"></i>
         </a>
+        
         <h1 class="title">
             <router-link to="/">{{ title }}</router-link>
         </h1>
+
         <UserDropdown v-if="!hideUserDropdown" />
+    
     </header>
+
 </template>
 
 <script>
@@ -38,7 +42,7 @@ export default {
 <style>
     .header {
         grid-area: header;
-        background: linear-gradient(to right, #1e469a, #49a7c1);
+        background: #294262;
 
         display: flex;
         justify-content: center;

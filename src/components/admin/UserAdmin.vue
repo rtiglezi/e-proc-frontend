@@ -1,117 +1,123 @@
 <template>
   <div class="user-admin">
-    <div class="text-left mb-3">
-      <button @click="showCad = !showCad">{{ showCad }}</button>
-    </div>
+    
+    <b-card class="text-center mb-2">
+      <b-button v-b-tooltip.hover="'Formulário'" @click="showCad = true" variant="light">
+        <i class="fa fa-pencil fa-2x"></i>
+      </b-button>
+      <b-button  v-b-tooltip.hover="'Listagem'" @click="showCad = false" variant="light" class="ml-2">
+        <i class="fa fa-th-list fa-2x"></i>
+      </b-button>
+      <b-button  v-b-tooltip.hover="'Relatórios'" variant="light" class="ml-2">
+        <i class="fa fa-file fa-2x"></i>
+      </b-button>
+    </b-card>
 
     <!-- INICIO FORMULÁRIO DE CADASTRO -->
-    <div v-if="showCad" class="card card-form">
-     
-      <!-- 
-      Erros: {{ errors.items }}
-      <br>
-      Usuario: {{ this.user }}
-      -->
-      
-      <b-form class="form">
-        <div class="card card-form">
-          <b-row>
-            <b-col md="6" sm="12">
-              <b-form-group label="Nome *" label-for="userName">
-                <b-form-input
-                  ref="userName"
-                  name="Nome"
-                  id="userName"
-                  class="classOrange"
-                  v-model="user.name"
-                  :readonly="mode === 'remove'"
-                  v-validate="{ required: true, min: 3 }"
-                ></b-form-input>
-                <span
-                  ref="spnNome"
-                  v-if="showSpanError('Nome')"
-                  class="error"
-                >{{ errors.first('Nome') }}</span>
-              </b-form-group>
-            </b-col>
-            <b-col md="6" sm="12">
-              <b-form-group label="E-mail *" label-for="user-email">
-                <b-form-input
-                  name="E-mail"
-                  id="user-email"
-                  v-model="user.email"
-                  :readonly="mode === 'remove'"
-                  v-validate="'required|email'"
-                ></b-form-input>
-                <span v-if="showSpanError('E-mail')" class="error">{{ errors.first('E-mail') }}</span>
-              </b-form-group>
-            </b-col>
-          </b-row>
-          <b-row>
-            <b-col md="6" sm="12">
-              <b-form-group label="Perfis do usuário:" label-for="user-profiles">
-                <b-form-checkbox-group
-                  stacked
-                  id="user-profiles"
-                  v-model="user.profiles"
-                  name="profiles"
-                >
-                  <b-form-checkbox disabled value="user">user</b-form-checkbox>
-                  <b-form-checkbox :disabled="mode === 'remove'" value="admin">admin</b-form-checkbox>
-                  <b-form-checkbox :disabled="mode === 'remove'" value="master">master</b-form-checkbox>
-                </b-form-checkbox-group>
-              </b-form-group>
-            </b-col>
-            <b-col md="6" sm="12">
-              <b-form-group label="Unidades a que tem acesso:" label-for="user-allowedDivisions">
-                <b-form-checkbox-group
-                  stacked
-                  id="user-allowedDivisions"
-                  v-model="user.allowedDivisions"
-                  name="divisions"
-                >
-                  <b-form-checkbox
-                    v-for="division in divisions"
-                    :key="division._id"
-                    :value="division._id"
-                  >{{ division.name }}</b-form-checkbox>
-                </b-form-checkbox-group>
-              </b-form-group>
-            </b-col>
-          </b-row>
-        </div>
-        <div class="right">
-          <b-button
-            variant="primary"
-            class="ml-2"
-            v-if="mode === 'save'"
-            @click="save"
-          >Incluir o novo registro</b-button>
-          <b-button
-            variant="success"
-            class="ml-2"
-            v-if="mode === 'edit'"
-            @click="save"
-          >Editar este registro</b-button>
-          <b-button
-            variant="danger"
-            class="ml-2"
-            v-if="mode === 'remove'"
-            @click="remove"
-          >Excluir este registro ?</b-button>
-          <b-button variant="default" @click="refresh(true, false)" class="ml-2">Limpar o formulário</b-button>
-        </div>
+    <b-card v-if="showCad">
+      <b-form>
+        <b-row>
+          <b-col md="6" sm="12">
+            <b-form-group label="Nome *" label-for="userName">
+              <b-form-input
+                ref="userName"
+                name="Nome"
+                id="userName"
+                class="classOrange"
+                v-model="user.name"
+                :readonly="mode === 'remove'"
+                v-validate="{ required: true, min: 3 }"
+              ></b-form-input>
+              <span
+                ref="spnNome"
+                v-if="showSpanError('Nome')"
+                class="error"
+              >{{ errors.first('Nome') }}</span>
+            </b-form-group>
+          </b-col>
+          <b-col md="6" sm="12">
+            <b-form-group label="E-mail *" label-for="user-email">
+              <b-form-input
+                class="form-control"
+                prepend="@"
+                name="E-mail"
+                id="user-email"
+                v-model="user.email"
+                :readonly="mode === 'remove'"
+                v-validate="'required|email'"
+              ></b-form-input>
+              <span v-if="showSpanError('E-mail')" class="error">{{ errors.first('E-mail') }}</span>
+            </b-form-group>
+          </b-col>
+        </b-row>
+        <b-row>
+          <b-col md="6" sm="12">
+            <b-form-group label="Perfis do usuário:" label-for="user-profiles">
+              <b-form-checkbox-group
+                stacked
+                id="user-profiles"
+                v-model="user.profiles"
+                name="profiles"
+              >
+                <b-form-checkbox disabled value="user">user</b-form-checkbox>
+                <b-form-checkbox :disabled="mode === 'remove'" value="admin">admin</b-form-checkbox>
+                <b-form-checkbox :disabled="mode === 'remove'" value="master">master</b-form-checkbox>
+              </b-form-checkbox-group>
+            </b-form-group>
+          </b-col>
+          <b-col md="6" sm="12">
+            <b-form-group label="Unidades a que tem acesso:" label-for="user-allowedDivisions">
+              <b-form-checkbox-group
+                stacked
+                id="user-allowedDivisions"
+                v-model="user.allowedDivisions"
+                name="divisions"
+              >
+                <b-form-checkbox
+                  v-for="division in divisions"
+                  :key="division._id"
+                  :value="division._id"
+                >{{ division.name }}</b-form-checkbox>
+              </b-form-checkbox-group>
+            </b-form-group>
+          </b-col>
+        </b-row>
+        <hr>
+        <b-button
+          variant="primary"
+          class="ml-2"
+          v-if="mode === 'save'"
+          @click="save"
+        >Incluir o novo registro</b-button>
+        <b-button
+          variant="success"
+          class="ml-2"
+          v-if="mode === 'edit'"
+          @click="save"
+        >Editar este registro</b-button>
+        <b-button
+          variant="danger"
+          class="ml-2"
+          v-if="mode === 'remove'"
+          @click="remove"
+        >Excluir este registro ?</b-button>
+        <b-button variant="default" @click="refresh(true, false)" class="ml-2">Limpar o formulário</b-button>
       </b-form>
-    </div>
+    </b-card>
     <!-- FINAL FORMULÁRIO DE CADASTRO -->
 
     <!-- INÍCIO DA LISTA -->
-    <div v-if="!showCad" class="card card-form">
+    <b-card v-if="!showCad">
       <b-row>
         <b-col>
           <b-form-group label="Busca rápida:">
             <b-input-group>
-              <b-form-input v-model="filter" placeholder="Digite o termo ..."></b-form-input>
+              <b-form-input
+                ref="txtFilter"
+                :value="lastUser.email"
+                v-model="filter"
+                placeholder="Digite o termo ..."
+              ></b-form-input>
               <b-input-group-append>
                 <b-button :disabled="!filter" @click="filter = ''">Limpar</b-button>
               </b-input-group-append>
@@ -178,7 +184,7 @@
           </b-button>
         </template>
       </b-table>
-    </div>
+    </b-card>
     <!-- FINAL DA LISTA -->
   </div>
 </template>
@@ -195,7 +201,10 @@ export default {
       btnCancelDisabled: false,
       mode: "save",
       divisions: [],
-      user: {},
+      user: {
+        profiles: ["user"]
+      },
+      lastUser: {},
       showCad: true,
       totalRows: 1,
       filter: null,
@@ -232,6 +241,14 @@ export default {
       ]
     };
   },
+  watch: {
+    showCad: function(val) {
+      if (val || this.mode === "remove") {
+        this.filter = null;
+        this.lastUser = {};
+      }
+    }
+  },
   methods: {
     loadDivisions() {
       const url = `${baseApiUrl}/divisions`;
@@ -257,6 +274,8 @@ export default {
         }
         axios[method](`${baseApiUrl}/users${id}`, this.user)
           .then(() => {
+            this.filter = this.user.email;
+            this.lastUser = this.user;
             this.refresh(false, true);
           })
           .catch(showError);
@@ -267,6 +286,8 @@ export default {
       axios
         .delete(`${baseApiUrl}/users/${id}`)
         .then(() => {
+          this.lastUser = {};
+          this.filter = "";
           this.refresh(false, true);
         })
         .catch(showError);
@@ -298,7 +319,7 @@ export default {
       this.currentPage = 1;
     },
     refresh(showCadParam, showMessageSuccess) {
-      this.mode = 'save';
+      this.mode = "save";
       this.user = {};
       this.user.profiles = ["user"];
       this.showCad = showCadParam;
@@ -322,7 +343,7 @@ export default {
 <style>
 .card-form {
   padding: 15px;
-  background-color: #f8f9fa;
+  background-color: red;
   margin-bottom: 10px;
 }
 .a-admin {
@@ -348,9 +369,16 @@ export default {
   font-size: 18px;
   color: #555;
 }
-
 .delete {
   font-size: 18px;
   color: red;
+}
+.b-card-int {
+  background-color: red;
+  color: green;
+}
+
+.form-control {
+  border-radius: 0;
 }
 </style>

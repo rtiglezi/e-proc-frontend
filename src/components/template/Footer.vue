@@ -13,9 +13,9 @@ export default {
 <style>
     .footer {
         grid-area: footer;
-        background-color: #DDD;
+        background-color: #eee;
         color: #333;
-
+        font-size: 12px;
         display: flex;
         align-items: center;
         justify-content: flex-end;

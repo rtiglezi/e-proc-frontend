@@ -4,7 +4,6 @@ import VueRouter from "vue-router";
 import Home from "@/components/home/Home";
 import AdminPages from "@/components/admin/AdminPages";
 
-import UserAdmin from "@/components/admin/UserAdmin";
 
 Vue.use(VueRouter);
 
@@ -18,14 +17,7 @@ const routes = [
     name: "adminPages",
     path: "/admin",
     component: AdminPages,
-    meta: { requiresAdmin: true },
-    children: [
-      {
-        path: "user",
-        component: UserAdmin,
-        meta: { requiresAdmin: true }
-      }
-    ]
+    meta: { requiresAdmin: true }
   }
 ];
 
