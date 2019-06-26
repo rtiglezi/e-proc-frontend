@@ -7,6 +7,7 @@
 	</div>
 </template>
 
+
 <script>
 import { mapState } from 'vuex'
 import Header from '@/components/template/Header'
@@ -36,8 +37,8 @@ body {
 
 		height: 100vh;
 		display: grid;
-		grid-template-rows: 60px 1fr 40px;
-		grid-template-columns: 200px 1fr;
+		grid-template-rows: 60px 1fr 20px;
+		grid-template-columns: 230px 1fr;
 		grid-template-areas:
 			"header header"
 			"menu content"
@@ -58,5 +59,6 @@ body {
 			"footer footer";
 	}
 
+	
 </style>
 

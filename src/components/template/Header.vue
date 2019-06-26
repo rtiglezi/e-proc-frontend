@@ -42,7 +42,7 @@ export default {
 <style>
     .header {
         grid-area: header;
-        background: #294262;
+        background: #384860;
 
         display: flex;
         justify-content: center;

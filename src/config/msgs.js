@@ -3,7 +3,7 @@ import Toasted from 'vue-toasted'
 
 Vue.use(Toasted, {
     iconPack: 'fontawesome',
-    duration: 2500,
+    duration: 3000,
     position: "top-center",
     theme: "bubble"
 })

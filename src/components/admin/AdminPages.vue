@@ -7,14 +7,12 @@
       sub="[Esta é uma área de acesso restrito]"
     />
 
-  
-    <b-tabs>
-      <b-tab title="Usuários" active><UserAdmin /></b-tab>
-      <b-tab title="Unidades"><DivisionAdmin /></b-tab>
+   <b-card no-body>
+    <b-tabs pills card vertical style="background-color:#eee" >
+      <b-tab class="pl-3 pt-2 pr-3 pb-10" title="Usuários" active><UserAdmin /></b-tab>
+      <b-tab class="p-5" title="Unidades"><DivisionAdmin /></b-tab>
     </b-tabs>
-    
-       
-   
+    </b-card>
 
   </div>
 </template>

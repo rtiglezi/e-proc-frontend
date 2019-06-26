@@ -1,17 +1,9 @@
 <template>
   <div class="user-admin">
-    
-    <b-card class="text-center mb-2">
-      <b-button v-b-tooltip.hover="'Formulário'" @click="showCad = true" variant="light">
-        <i class="fa fa-pencil fa-2x"></i>
-      </b-button>
-      <b-button  v-b-tooltip.hover="'Listagem'" @click="showCad = false" variant="light" class="ml-2">
-        <i class="fa fa-th-list fa-2x"></i>
-      </b-button>
-      <b-button  v-b-tooltip.hover="'Relatórios'" variant="light" class="ml-2">
-        <i class="fa fa-file fa-2x"></i>
-      </b-button>
-    </b-card>
+    <b-nav small>
+      <b-nav-item @click="showCad = true" active>Formulário</b-nav-item>
+      <b-nav-item @click="showCad = false">Listagem</b-nav-item>
+    </b-nav>
 
     <!-- INICIO FORMULÁRIO DE CADASTRO -->
     <b-card v-if="showCad">
@@ -83,25 +75,22 @@
           </b-col>
         </b-row>
         <hr>
-        <b-button
-          variant="primary"
-          class="ml-2"
-          v-if="mode === 'save'"
-          @click="save"
-        >Incluir o novo registro</b-button>
-        <b-button
-          variant="success"
-          class="ml-2"
-          v-if="mode === 'edit'"
-          @click="save"
-        >Editar este registro</b-button>
-        <b-button
-          variant="danger"
-          class="ml-2"
-          v-if="mode === 'remove'"
-          @click="remove"
-        >Excluir este registro ?</b-button>
-        <b-button variant="default" @click="refresh(true, false)" class="ml-2">Limpar o formulário</b-button>
+        <b-button variant="info" class="ml-2" v-if="mode === 'save'" @click="save">
+          <i class="fa fa-send fa-lg"></i>
+          Adicionar Registro
+        </b-button>
+        <b-button variant="info" class="ml-2" v-if="mode === 'edit'" @click="save">
+          <i class="fa fa-pencil fa-lg"></i>
+          Editar Registro
+        </b-button>
+        <b-button variant="danger" class="ml-2" v-if="mode === 'remove'" @click="remove">
+          <i class="fa fa-trash fa-lg"></i>
+          Excluir este registro?
+        </b-button>
+        <b-button variant="secondary" @click="refresh(true, false)" class="ml-2">
+          <i class="fa fa-eraser fa-lg"></i>
+          Limpar Formulário
+        </b-button>
       </b-form>
     </b-card>
     <!-- FINAL FORMULÁRIO DE CADASTRO -->
@@ -109,43 +98,27 @@
     <!-- INÍCIO DA LISTA -->
     <b-card v-if="!showCad">
       <b-row>
+        <b-col></b-col>
         <b-col>
-          <b-form-group label="Busca rápida:">
-            <b-input-group>
-              <b-form-input
-                ref="txtFilter"
-                :value="lastUser.email"
-                v-model="filter"
-                placeholder="Digite o termo ..."
-              ></b-form-input>
-              <b-input-group-append>
-                <b-button :disabled="!filter" @click="filter = ''">Limpar</b-button>
-              </b-input-group-append>
-            </b-input-group>
-          </b-form-group>
+          <div class="text-center">Total de {{ totalRows }} registro(s)</div>
         </b-col>
         <b-col>
-          <div class="mb-2 text-center">Total de {{ totalRows }} registro(s)</div>
-          <b-pagination
-            v-model="currentPage"
-            :total-rows="totalRows"
-            :per-page="perPage"
-            first-text="Primeira"
-            prev-text="Anterior"
-            next-text="Próxima"
-            last-text="Última"
-            aria-controls="my-table"
-          ></b-pagination>
-        </b-col>
-        <b-col>
-          <b-form-group label-cols-sm="3" label="Registros por página:" class="mb-0">
-            <b-form-select v-model="perPage" :options="pageOptions"></b-form-select>
-          </b-form-group>
+          <b-input-group>
+            <b-form-input
+              small
+              ref="txtFilter"
+              v-model="filter"
+              placeholder="Busca rápida ..."
+            ></b-form-input>
+            <b-input-group-append>
+              <b-button :disabled="!filter" @click="filter = ''">Limpar</b-button>
+            </b-input-group-append>
+          </b-input-group>
         </b-col>
       </b-row>
 
       <b-table
-        class="table"
+        class="table mt-2"
         id="my-table"
         :items="users"
         :per-page="perPage"
@@ -176,14 +149,29 @@
         </template>
 
         <template slot="actions" slot-scope="data">
-          <b-button variant="default" @click="loadUser(data.item, 'edit')" class="mr-2">
-            <i class="fa fa-pencil edit"></i>
-          </b-button>
-          <b-button variant="default" @click="loadUser(data.item, 'remove')" class="mr-2">
-            <i class="fa fa-trash delete"></i>
-          </b-button>
+       
+              <b-button variant="outline-info" @click="loadUser(data.item, 'edit')" >
+              <i
+              class="fa fa-pencil"
+              title="Editar o registro."></i></b-button>
+
+              <b-button variant="outline-danger" class="ml-1" @click="loadUser(data.item, 'remove')"><i 
+              class="fa fa-trash"
+              title="Excluir o registro."
+              ></i></b-button>
+       
         </template>
+     
       </b-table>
+
+      <b-pagination
+        small
+        align="right"
+        v-model="currentPage"
+        :total-rows="totalRows"
+        :per-page="perPage"
+        aria-controls="my-table"
+      ></b-pagination>
     </b-card>
     <!-- FINAL DA LISTA -->
   </div>
@@ -204,12 +192,11 @@ export default {
       user: {
         profiles: ["user"]
       },
-      lastUser: {},
       showCad: true,
       totalRows: 1,
       filter: null,
       currentPage: 1,
-      perPage: 5,
+      perPage: 10,
       pageOptions: [5, 10, 15],
       options: [],
       users: [],
@@ -241,14 +228,6 @@ export default {
       ]
     };
   },
-  watch: {
-    showCad: function(val) {
-      if (val || this.mode === "remove") {
-        this.filter = null;
-        this.lastUser = {};
-      }
-    }
-  },
   methods: {
     loadDivisions() {
       const url = `${baseApiUrl}/divisions`;
@@ -274,8 +253,6 @@ export default {
         }
         axios[method](`${baseApiUrl}/users${id}`, this.user)
           .then(() => {
-            this.filter = this.user.email;
-            this.lastUser = this.user;
             this.refresh(false, true);
           })
           .catch(showError);
@@ -286,8 +263,6 @@ export default {
       axios
         .delete(`${baseApiUrl}/users/${id}`)
         .then(() => {
-          this.lastUser = {};
-          this.filter = "";
           this.refresh(false, true);
         })
         .catch(showError);
@@ -322,7 +297,6 @@ export default {
       this.mode = "save";
       this.user = {};
       this.user.profiles = ["user"];
-      this.showCad = showCadParam;
       if (showMessageSuccess) {
         this.$toasted.global.defaultSuccess();
       }
@@ -351,34 +325,18 @@ export default {
 }
 .error {
   margin-left: 5px;
-  color: #800000;
+  color: #6d630e;
   font-size: 11px;
   font-weight: normal;
-  background-color: #f8d7da;
+  background-color: #eef8d7;
   background-image: url(~@/assets/alert-icon-red.png);
   background-size: 15px 15px;
   background-repeat: no-repeat;
   background-position: 2px;
   padding: 3px;
   border-radius: 5px 5px 5px;
-  border: 1px solid #ffb3b3;
+  border: 1px solid #dce0be;
   padding-left: 20px;
   position: relative;
-}
-.edit {
-  font-size: 18px;
-  color: #555;
-}
-.delete {
-  font-size: 18px;
-  color: red;
-}
-.b-card-int {
-  background-color: red;
-  color: green;
-}
-
-.form-control {
-  border-radius: 0;
 }
 </style>
