@@ -1,6 +1,6 @@
 <template>
   <div class="user-admin">
-    <PageTitle icon="fa fa-users fa-1x" main="Cadastro de Usuários" sub="Área admnistrativa de acesso restrito"/>
+    <PageTitle icon="fa fa-users fa-1x" main="Cadastro de Usuários" sub="Área administrativa de acesso restrito"/>
 
     <!-- INICIO FORMULÁRIO DE CADASTRO -->
     <b-form v-if="showCad">
@@ -194,10 +194,11 @@
 import { baseApiUrl, showError } from "@/global";
 import axios from "axios";
 import PageTitle from "../template/PageTitle";
+import Confirm from "./Confirm";
 
 export default {
   name: "UserAdmin",
-  components: { PageTitle },
+  components: { PageTitle, Confirm },
   data: function() {
     return {
       btnCancelDisabled: false,
@@ -243,7 +244,7 @@ export default {
     };
   },
   methods: {
-    loadDivisions() {
+     loadDivisions() {
       const url = `${baseApiUrl}/divisions`;
       axios.get(url).then(res => {
         this.divisions = res.data;
@@ -308,14 +309,10 @@ export default {
       this.currentPage = 1;
     },
     refresh(showCadParam, showMessageSuccess) {
-      this.mode = "save";
-      this.user = {};
-      this.user.profiles = ["user"];
       if (showMessageSuccess) {
         this.$toasted.global.defaultSuccess();
       }
-      this.loadUsers();
-      this.loadDivisions();
+      this.$router.push('/admin/confirm?origin=user');
     }
   },
   mounted() {

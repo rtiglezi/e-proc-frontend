@@ -3,6 +3,7 @@ import VueRouter from "vue-router";
 
 import Home from "@/components/home/Home";
 import UserAdmin from "@/components/admin/UserAdmin";
+import Confirm from "@/components/admin/Confirm";
 
 
 Vue.use(VueRouter);
@@ -17,6 +18,12 @@ const routes = [
     name: "userAdmin",
     path: "/admin/user",
     component: UserAdmin,
+    meta: { requiresAdmin: true }
+  },
+  {
+    name: "confirm",
+    path: "/admin/confirm",
+    component: Confirm,
     meta: { requiresAdmin: true }
   }
 ];
