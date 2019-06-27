@@ -1,15 +1,19 @@
 <template>
   <div class="user-admin">
-    <PageTitle icon="fa fa-users fa-1x" main="Cadastro de Usuários" sub="Área administrativa de acesso restrito"/>
+    <PageTitle
+      icon="fa fa-users fa-1x"
+      main="Cadastro de Usuários"
+      sub="Área administrativa de acesso restrito"
+    />
 
     <!-- INICIO FORMULÁRIO DE CADASTRO -->
     <b-form v-if="showCad">
       <b-card class="mb-2">
         <b-row>
           <b-col md="3" sm="12" class="text-center label-form">
-            <i class="fa fa-address-book fa-5x icon-form" aria-hidden="true"></i>
-            <br>Dados
-            <br>Cadastrais
+            <i class="fa fa-users fa-5x icon-form" aria-hidden="true"></i>
+            <br>USUÁRIOS
+            <br>Dados cadastrais
           </b-col>
           <b-col md="9" sm="12">
             <b-form-group label="Nome *" label-for="userName">
@@ -100,7 +104,7 @@
           <i class="fa fa-trash fa-lg"></i>
           Excluir?
         </b-button>
-        <b-button variant="secondary" @click="refresh(true, false)" class="ml-2">
+        <b-button variant="secondary" @click="refresh(true)" class="ml-2">
           <i class="fa fa-eraser fa-lg"></i>
           Limpar
         </b-button>
@@ -244,7 +248,7 @@ export default {
     };
   },
   methods: {
-     loadDivisions() {
+    loadDivisions() {
       const url = `${baseApiUrl}/divisions`;
       axios.get(url).then(res => {
         this.divisions = res.data;
@@ -268,7 +272,7 @@ export default {
         }
         axios[method](`${baseApiUrl}/users${id}`, this.user)
           .then(() => {
-            this.refresh(false, true);
+            this.refresh();
           })
           .catch(showError);
       });
@@ -278,15 +282,12 @@ export default {
       axios
         .delete(`${baseApiUrl}/users/${id}`)
         .then(() => {
-          this.refresh(false, true);
+          this.refresh();
         })
         .catch(showError);
     },
     setFocus() {
       this.$refs.userName.$el.focus();
-    },
-    goToList() {
-      this.$router.push(`/admin/user/list`);
     },
     showSpanError(campo) {
       let obj = this.errors.items;
@@ -308,11 +309,36 @@ export default {
       this.totalRows = filteredItems.length;
       this.currentPage = 1;
     },
-    refresh(showCadParam, showMessageSuccess) {
-      if (showMessageSuccess) {
-        this.$toasted.global.defaultSuccess();
+    refresh(isCleaningForm) {
+      let doRefreshPage = true;
+
+      if (!isCleaningForm) {
+        switch (this.mode) {
+          case "save":
+            this.$toasted.global.defaultSuccess({
+              msg: "Usuário inserido com sucesso."
+            });
+            break;
+          case "edit":
+            this.$toasted.global.defaultSuccess({
+              msg: "Dados do usuário editados com sucesso."
+            });
+            doRefreshPage = false;
+            break;
+          case "remove":
+            this.$toasted.global.defaultSuccess({
+              msg: "Usuário excluído do sistema com sucesso."
+            });
+            break;
+        }
       }
-      this.$router.push('/admin/confirm?origin=user');
+
+      this.loadUsers();
+
+      if (doRefreshPage) {
+        let msg = "Formulário pronto para nova inserção.";
+        this.$router.push(`/admin/confirm?origin=user&msg=${msg}`);
+      }
     }
   },
   mounted() {
@@ -357,6 +383,6 @@ export default {
   color: rgba(5, 149, 201, 0.445);
 }
 .label-form {
-  color: #888
+  color: #888;
 }
 </style>

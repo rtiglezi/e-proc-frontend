@@ -21,7 +21,7 @@ Vue.toasted.register(
 )
 
 Vue.toasted.register(
-    'confirm', 
-    payload => !payload.msg ? 'Formulário pronto para nova inserção.' : payload.msg,
+    'defaultConfirm', 
+    payload => !payload.msg ? 'Tudo certo! Pode prosseguir.' : payload.msg,
     { type: 'info', icon: 'info' }
 )

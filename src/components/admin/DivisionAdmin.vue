@@ -1,15 +1,310 @@
 <template>
-    <div class="division-admin">
-        <h1>Administração de Unidades</h1>
+  <div class="division-admin">
+    <PageTitle
+      icon="fa fa-sitemap fa-1x"
+      main="Cadastro de Unidades"
+      sub="Área administrativa de acesso restrito"
+    />
+
+    <!-- INICIO FORMULÁRIO DE CADASTRO -->
+    <b-form v-if="showCad">
+      <b-card class="mb-2">
+        <b-row>
+          <b-col md="3" sm="12" class="text-center label-form">
+            <i class="fa fa-sitemap fa-5x icon-form" aria-hidden="true"></i>
+            <br>UNIDADES
+            <br>Dados Cadastrais
+          </b-col>
+          <b-col md="9" sm="12">
+            <b-form-group label="Nome *" label-for="divisionName">
+              <b-form-input
+                ref="divisionName"
+                name="Nome"
+                id="divisionName"
+                class="classOrange"
+                v-model="division.name"
+                :readonly="mode === 'remove'"
+                v-validate="{ required: true, min: 3 }"
+              ></b-form-input>
+              <span
+                ref="spnNome"
+                v-if="showSpanError('Nome')"
+                class="error"
+              >{{ errors.first('Nome') }}</span>
+            </b-form-group>
+
+          </b-col>
+        </b-row>
+      </b-card>
+
+      <div class="text-right">
+        <b-button variant="primary" class="ml-2" v-if="mode === 'save'" @click="save">
+          <i class="fa fa-send fa-lg"></i>
+          Inserir
+        </b-button>
+        <b-button variant="primary" class="ml-2" v-if="mode === 'edit'" @click="save">
+          <i class="fa fa-pencil fa-lg"></i>
+          Editar
+        </b-button>
+        <b-button variant="danger" class="ml-2" v-if="mode === 'remove'" @click="remove">
+          <i class="fa fa-trash fa-lg"></i>
+          Excluir?
+        </b-button>
+        <b-button variant="secondary" @click="refresh(true)" class="ml-2">
+          <i class="fa fa-eraser fa-lg"></i>
+          Limpar
+        </b-button>
+        <b-button variant="info" @click="showCad = false" class="ml-4">
+          Listagem
+          <i class="fa fa-arrow-right fa-lg ml-1"></i>
+        </b-button>
+      </div>
+    </b-form>
+    <!-- FINAL FORMULÁRIO DE CADASTRO -->
+
+    <!-- INÍCIO DA LISTA -->
+    <div v-if="!showCad">
+      <b-card class="mb-2">
+        <b-row>
+          <b-col></b-col>
+          <b-col>
+            <div class="text-center">Total de {{ totalRows }} registro(s)</div>
+          </b-col>
+          <b-col>
+            <b-input-group>
+              <b-form-input small ref="txtFilter" v-model="filter" placeholder="Busca rápida ..."></b-form-input>
+              <b-input-group-append>
+                <b-button :disabled="!filter" @click="filter = ''">Limpar</b-button>
+              </b-input-group-append>
+            </b-input-group>
+          </b-col>
+        </b-row>
+
+        <b-table
+          class="table mt-2"
+          id="my-table"
+          :items="divisions"
+          :per-page="perPage"
+          :current-page="currentPage"
+          small
+          hover
+          striped
+          responsive
+          bordered
+          :filter="filter"
+          :fields="fields"
+          @filtered="onFiltered"
+        >
+         
+          <template slot="actions" slot-scope="data">
+            <b-button variant="outline-primary" @click="loadDivision(data.item, 'edit')">
+              <i class="fa fa-pencil" title="Editar o registro."></i>
+            </b-button>
+
+            <b-button variant="outline-danger" class="ml-1" @click="loadDivision(data.item, 'remove')">
+              <i class="fa fa-trash" title="Excluir o registro."></i>
+            </b-button>
+          </template>
+         
+        </b-table>
+
+        <b-pagination
+          small
+          align="right"
+          v-model="currentPage"
+          :total-rows="totalRows"
+          :per-page="perPage"
+          aria-controls="my-table"
+        ></b-pagination>
+      </b-card>
+
+      <b-button variant="info" @click="showCad = true">
+        <i class="fa fa-arrow-left fa-lg mr-1"></i>Formulário
+      </b-button>
     </div>
+    <!-- FINAL DA LISTA -->
+  </div>
 </template>
 
 <script>
+import { baseApiUrl, showError } from "@/global";
+import axios from "axios";
+import PageTitle from "../template/PageTitle";
+import Confirm from "./Confirm";
+
 export default {
-    name: 'DivisionAdmin'
-}
+  name: "divisionAdmin",
+  components: { PageTitle, Confirm },
+  data: function() {
+    return {
+      btnCancelDisabled: false,
+      mode: "save",
+      divisions: [],
+      division: {},
+      showCad: true,
+      totalRows: 1,
+      filter: null,
+      currentPage: 1,
+      perPage: 10,
+      pageOptions: [5, 10, 15],
+      options: [],
+
+      fields: [
+        {
+          key: "links",
+          label: "Links",
+          sortable: false,
+          thClass: "d-none",
+          tdClass: "d-none"
+        },
+        {
+          key: "_id",
+          label: "Código",
+          sortable: true,
+          thClass: "d-none",
+          tdClass: "d-none"
+        },
+        { key: "name", label: "Nome", sortable: true },
+        {
+          key: "actions",
+          label: "Ações",
+          sortable: false,
+          class: "text-center"
+        }
+      ]
+    };
+  },
+  methods: {
+    loadDivisions() {
+      const url = `${baseApiUrl}/divisions`;
+      axios.get(url).then(res => {
+        this.divisions = res.data;
+      });
+    },
+    loadDivision(division, mode) {
+      this.mode = mode;
+      const url = `${baseApiUrl}/divisions/${division._id}`;
+      axios.get(url).then(res => {
+        this.division = res.data;
+        this.showCad = !this.showCad;
+      });
+    },
+    save() {
+      
+      
+      const method = this.division._id ? "patch" : "post";
+      const id = this.division._id ? `/${this.division._id}` : "";
+
+      this.$validator.validateAll().then(success => {
+        if (!success) {
+          return;
+        }
+        axios[method](`${baseApiUrl}/divisions${id}`, this.division)
+          .then(() => {
+            this.refresh();
+          })
+          .catch(showError);
+      });
+    },
+    remove() {
+      const id = this.division._id;
+      axios
+        .delete(`${baseApiUrl}/divisions/${id}`)
+        .then(() => {
+          this.refresh();
+        })
+        .catch(showError);
+    },
+    setFocus() {
+      this.$refs.divisionName.$el.focus();
+    },
+    showSpanError(campo) {
+      let obj = this.errors.items;
+      let index = obj.findIndex(val => val.field == campo);
+      if (index < 0) {
+        return false;
+      } else {
+        return true;
+      }
+    },
+    onFiltered(filteredItems) {
+      // Trigger pagination to update the number of buttons/pages due to filtering
+      this.totalRows = filteredItems.length;
+      this.currentPage = 1;
+    },
+    refresh(isCleaningForm) {
+      let doRefreshPage = true;
+
+      if (!isCleaningForm) {
+        switch (this.mode) {
+          case "save":
+            this.$toasted.global.defaultSuccess({
+              msg: "Unidade inserida com sucesso."
+            });
+            break;
+          case "edit":
+            this.$toasted.global.defaultSuccess({
+              msg: "Dados da Unidade editados com sucesso."
+            });
+            doRefreshPage = false;
+            break;
+          case "remove":
+            this.$toasted.global.defaultSuccess({
+              msg: "Unidade excluída do sistema com sucesso."
+            });
+            break;
+        }
+      }
+
+      this.loadDivisions();
+
+      if (doRefreshPage) {
+        let msg = "Formulário pronto para nova inserção.";
+        this.$router.push(`/admin/confirm?origin=division&msg=${msg}`);
+      }
+    }
+  },
+  mounted() {
+    if (!this.mode) {
+      this.mode = "save";
+    }
+    this.loadDivisions();
+  }
+};
 </script>
 
 <style>
-
+.card-form {
+  padding: 15px;
+  background-color: red;
+  margin-bottom: 10px;
+}
+.a-admin {
+  color: #808080;
+}
+.error {
+  margin-left: 5px;
+  color: #6d630e;
+  font-size: 11px;
+  font-weight: normal;
+  background-color: #fff3cd;
+  background-image: url(~@/assets/alert-icon-red.png);
+  background-size: 15px 15px;
+  background-repeat: no-repeat;
+  background-position: 2px;
+  padding: 3px;
+  border-radius: 5px 5px 5px;
+  border: 1px solid #dce0be;
+  padding-left: 20px;
+  position: relative;
+}
+.icon-title {
+  color: orange;
+}
+.icon-form {
+  color: rgba(5, 149, 201, 0.445);
+}
+.label-form {
+  color: #888;
+}
 </style>

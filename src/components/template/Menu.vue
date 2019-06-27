@@ -3,28 +3,23 @@
     <div id="cssmenu">
       <ul>
         <li>
-          <a >
+          <a>
             <span>Administração</span>
           </a>
         </li>
         <li>
           <a href="#" @click="navigate('/admin/user')">
-            <span>Usuários</span>
+            <span><i class="fa fa-users mr-2"></i>Usuários</span>
+          </a>
+        </li>
+        <li>
+          <a href="#" @click="navigate('/admin/division')">
+            <span><i class="fa fa-sitemap mr-2"></i>Unidades</span>
           </a>
         </li>
         <li>
           <a href="#">
-            <span>Unidades</span>
-          </a>
-        </li>
-        <li class="last">
-          <a href="#">
-            <span>Pedidos</span>
-          </a>
-        </li>
-        <li class="last">
-          <a href="#">
-            <span>Processos</span>
+            <span><i class="fa fa-file mr-2"></i>Pedidos</span>
           </a>
         </li>
       </ul>

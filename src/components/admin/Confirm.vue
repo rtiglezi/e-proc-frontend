@@ -7,8 +7,9 @@
 export default {
   name: "Confirm",
   mounted() {
-    this.$toasted.global.confirm();
     let origin = this.$route.query.origin;
+    let msg = this.$route.query.msg;
+    this.$toasted.global.defaultConfirm({msg});
     this.$router.push(`/admin/${origin}`);
   }
 };
