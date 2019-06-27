@@ -1,15 +1,17 @@
 <template>
   <div class="user-admin">
-    <b-nav small>
-      <b-nav-item @click="showCad = true" active>Formulário</b-nav-item>
-      <b-nav-item @click="showCad = false">Listagem</b-nav-item>
-    </b-nav>
+    <PageTitle icon="fa fa-users fa-1x" main="Cadastro de Usuários" sub="Área admnistrativa de acesso restrito"/>
 
     <!-- INICIO FORMULÁRIO DE CADASTRO -->
-    <b-card v-if="showCad">
-      <b-form>
+    <b-form v-if="showCad">
+      <b-card class="mb-2">
         <b-row>
-          <b-col md="6" sm="12">
+          <b-col md="3" sm="12" class="text-center label-form">
+            <i class="fa fa-address-book fa-5x icon-form" aria-hidden="true"></i>
+            <br>Dados
+            <br>Cadastrais
+          </b-col>
+          <b-col md="9" sm="12">
             <b-form-group label="Nome *" label-for="userName">
               <b-form-input
                 ref="userName"
@@ -26,8 +28,7 @@
                 class="error"
               >{{ errors.first('Nome') }}</span>
             </b-form-group>
-          </b-col>
-          <b-col md="6" sm="12">
+
             <b-form-group label="E-mail *" label-for="user-email">
               <b-form-input
                 class="form-control"
@@ -42,8 +43,17 @@
             </b-form-group>
           </b-col>
         </b-row>
+      </b-card>
+
+      <b-card class="mb-2">
         <b-row>
-          <b-col md="6" sm="12">
+          <b-col md="3" sm="12" class="text-center label-form">
+            <i class="fa fa-key fa-5x icon-form" aria-hidden="true"></i>
+            <br>Pefis e
+            <br>Permissões
+          </b-col>
+
+          <b-col md="4" sm="12">
             <b-form-group label="Perfis do usuário:" label-for="user-profiles">
               <b-form-checkbox-group
                 stacked
@@ -57,7 +67,8 @@
               </b-form-checkbox-group>
             </b-form-group>
           </b-col>
-          <b-col md="6" sm="12">
+
+          <b-col md="4" sm="12">
             <b-form-group label="Unidades a que tem acesso:" label-for="user-allowedDivisions">
               <b-form-checkbox-group
                 stacked
@@ -74,105 +85,107 @@
             </b-form-group>
           </b-col>
         </b-row>
-        <hr>
-        <b-button variant="info" class="ml-2" v-if="mode === 'save'" @click="save">
+      </b-card>
+
+      <div class="text-right">
+        <b-button variant="primary" class="ml-2" v-if="mode === 'save'" @click="save">
           <i class="fa fa-send fa-lg"></i>
-          Adicionar Registro
+          Inserir
         </b-button>
-        <b-button variant="info" class="ml-2" v-if="mode === 'edit'" @click="save">
+        <b-button variant="primary" class="ml-2" v-if="mode === 'edit'" @click="save">
           <i class="fa fa-pencil fa-lg"></i>
-          Editar Registro
+          Editar
         </b-button>
         <b-button variant="danger" class="ml-2" v-if="mode === 'remove'" @click="remove">
           <i class="fa fa-trash fa-lg"></i>
-          Excluir este registro?
+          Excluir?
         </b-button>
         <b-button variant="secondary" @click="refresh(true, false)" class="ml-2">
           <i class="fa fa-eraser fa-lg"></i>
-          Limpar Formulário
+          Limpar
         </b-button>
-      </b-form>
-    </b-card>
+        <b-button variant="info" @click="showCad = false" class="ml-4">
+          Listagem
+          <i class="fa fa-arrow-right fa-lg ml-1"></i>
+        </b-button>
+      </div>
+    </b-form>
     <!-- FINAL FORMULÁRIO DE CADASTRO -->
 
     <!-- INÍCIO DA LISTA -->
-    <b-card v-if="!showCad">
-      <b-row>
-        <b-col></b-col>
-        <b-col>
-          <div class="text-center">Total de {{ totalRows }} registro(s)</div>
-        </b-col>
-        <b-col>
-          <b-input-group>
-            <b-form-input
-              small
-              ref="txtFilter"
-              v-model="filter"
-              placeholder="Busca rápida ..."
-            ></b-form-input>
-            <b-input-group-append>
-              <b-button :disabled="!filter" @click="filter = ''">Limpar</b-button>
-            </b-input-group-append>
-          </b-input-group>
-        </b-col>
-      </b-row>
+    <div v-if="!showCad">
+      <b-card class="mb-2">
+        <b-row>
+          <b-col></b-col>
+          <b-col>
+            <div class="text-center">Total de {{ totalRows }} registro(s)</div>
+          </b-col>
+          <b-col>
+            <b-input-group>
+              <b-form-input small ref="txtFilter" v-model="filter" placeholder="Busca rápida ..."></b-form-input>
+              <b-input-group-append>
+                <b-button :disabled="!filter" @click="filter = ''">Limpar</b-button>
+              </b-input-group-append>
+            </b-input-group>
+          </b-col>
+        </b-row>
 
-      <b-table
-        class="table mt-2"
-        id="my-table"
-        :items="users"
-        :per-page="perPage"
-        :current-page="currentPage"
-        small
-        hover
-        striped
-        responsive
-        bordered
-        :filter="filter"
-        :fields="fields"
-        @filtered="onFiltered"
-      >
-        <template slot="profiles" slot-scope="row">
-          <ul>
-            <li v-for="(value, key) in row.item.profiles" :key="key">{{ value }}</li>
-          </ul>
-        </template>
+        <b-table
+          class="table mt-2"
+          id="my-table"
+          :items="users"
+          :per-page="perPage"
+          :current-page="currentPage"
+          small
+          hover
+          striped
+          responsive
+          bordered
+          :filter="filter"
+          :fields="fields"
+          @filtered="onFiltered"
+        >
+          <template slot="profiles" slot-scope="row">
+            <ul>
+              <li v-for="(value, key) in row.item.profiles" :key="key">{{ value }}</li>
+            </ul>
+          </template>
 
-        <template slot="allowedDivisionsDetails" slot-scope="row">
-          <ul>
-            <li
-              v-for="(item, index) in row.item.allowedDivisionsDetails"
-              :key="item.id"
-              :index="index"
-            >{{row.item.allowedDivisionsDetails[index].name}}</li>
-          </ul>
-        </template>
+          <template slot="allowedDivisionsDetails" slot-scope="row">
+            <ul>
+              <li
+                v-for="(item, index) in row.item.allowedDivisionsDetails"
+                :key="item.id"
+                :index="index"
+              >{{row.item.allowedDivisionsDetails[index].name}}</li>
+            </ul>
+          </template>
 
-        <template slot="actions" slot-scope="data">
-       
-              <b-button variant="outline-info" @click="loadUser(data.item, 'edit')" >
-              <i
-              class="fa fa-pencil"
-              title="Editar o registro."></i></b-button>
+          <template slot="actions" slot-scope="data">
+            <b-button variant="outline-primary" @click="loadUser(data.item, 'edit')">
+              <i class="fa fa-pencil" title="Editar o registro."></i>
+            </b-button>
 
-              <b-button variant="outline-danger" class="ml-1" @click="loadUser(data.item, 'remove')"><i 
-              class="fa fa-trash"
-              title="Excluir o registro."
-              ></i></b-button>
-       
-        </template>
-     
-      </b-table>
+            <b-button variant="outline-danger" class="ml-1" @click="loadUser(data.item, 'remove')">
+              <i class="fa fa-trash" title="Excluir o registro."></i>
+            </b-button>
+          </template>
+        </b-table>
 
-      <b-pagination
-        small
-        align="right"
-        v-model="currentPage"
-        :total-rows="totalRows"
-        :per-page="perPage"
-        aria-controls="my-table"
-      ></b-pagination>
-    </b-card>
+        <b-pagination
+          small
+          align="right"
+          v-model="currentPage"
+          :total-rows="totalRows"
+          :per-page="perPage"
+          aria-controls="my-table"
+        ></b-pagination>
+      </b-card>
+
+      <b-button variant="info" @click="showCad = true">
+        <i class="fa fa-arrow-left fa-lg mr-1"></i>Formulário
+      </b-button>
+    </div>
     <!-- FINAL DA LISTA -->
   </div>
 </template>
@@ -180,10 +193,11 @@
 <script>
 import { baseApiUrl, showError } from "@/global";
 import axios from "axios";
+import PageTitle from "../template/PageTitle";
 
 export default {
   name: "UserAdmin",
-  components: {},
+  components: { PageTitle },
   data: function() {
     return {
       btnCancelDisabled: false,
@@ -328,7 +342,7 @@ export default {
   color: #6d630e;
   font-size: 11px;
   font-weight: normal;
-  background-color: #eef8d7;
+  background-color: #fff3cd;
   background-image: url(~@/assets/alert-icon-red.png);
   background-size: 15px 15px;
   background-repeat: no-repeat;
@@ -338,5 +352,14 @@ export default {
   border: 1px solid #dce0be;
   padding-left: 20px;
   position: relative;
+}
+.icon-title {
+  color: orange;
+}
+.icon-form {
+  color: rgba(5, 149, 201, 0.445);
+}
+.label-form {
+  color: #888
 }
 </style>

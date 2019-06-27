@@ -2,7 +2,7 @@ import Vue from "vue";
 import VueRouter from "vue-router";
 
 import Home from "@/components/home/Home";
-import AdminPages from "@/components/admin/AdminPages";
+import UserAdmin from "@/components/admin/UserAdmin";
 
 
 Vue.use(VueRouter);
@@ -14,9 +14,9 @@ const routes = [
     component: Home
   },
   {
-    name: "adminPages",
-    path: "/admin",
-    component: AdminPages,
+    name: "userAdmin",
+    path: "/admin/user",
+    component: UserAdmin,
     meta: { requiresAdmin: true }
   }
 ];

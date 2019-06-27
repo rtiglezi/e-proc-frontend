@@ -8,7 +8,7 @@
     />
 
    <b-card no-body>
-    <b-tabs pills card vertical style="background-color:#eee" >
+    <b-tabs small card>
       <b-tab class="pl-3 pt-2 pr-3 pb-10" title="Usuários" active><UserAdmin /></b-tab>
       <b-tab class="p-5" title="Unidades"><DivisionAdmin /></b-tab>
     </b-tabs>
