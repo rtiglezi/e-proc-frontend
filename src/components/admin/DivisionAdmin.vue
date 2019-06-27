@@ -7,7 +7,7 @@
     />
 
     <!-- INICIO FORMULÁRIO DE CADASTRO -->
-    <b-form v-if="showCad">
+    <b-form v-if="showCad" v-on:submit.prevent="onSubmit" v-on:keyup.enter="submitByKey">
       <b-card class="mb-2">
         <b-row>
           <b-col md="3" sm="12" class="text-center label-form">
@@ -191,7 +191,6 @@ export default {
     },
     save() {
       
-      
       const method = this.division._id ? "patch" : "post";
       const id = this.division._id ? `/${this.division._id}` : "";
 
@@ -262,6 +261,13 @@ export default {
         let msg = "Formulário pronto para nova inserção.";
         this.$router.push(`/admin/confirm?origin=division&msg=${msg}`);
       }
+    },
+    submitByKey (){
+      if (this.mode === 'save' || this.mode === 'edit') {
+        this.save();
+      } else if (this.mode === 'remove') {
+        this.remove();
+      }
     }
   },
   mounted() {
@@ -269,6 +275,7 @@ export default {
       this.mode = "save";
     }
     this.loadDivisions();
+     this.setFocus();
   }
 };
 </script>
