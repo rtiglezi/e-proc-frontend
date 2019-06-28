@@ -8,7 +8,7 @@
 
     <!-- INICIO FORMULÁRIO DE CADASTRO -->
     <b-form v-if="showCad" v-on:submit.prevent="onSubmit" v-on:keyup.enter="submitByKey">
-      <b-card class="mb-2">
+      <b-card class="mb-2" bg-variant="danger" text-variant="white">
         <b-row>
           <b-col md="3" sm="12" class="text-center label-form">
             <i class="fa fa-sitemap fa-5x icon-form" aria-hidden="true"></i>
@@ -38,11 +38,11 @@
       </b-card>
 
       <div class="text-right">
-        <b-button variant="primary" class="ml-2" v-if="mode === 'save'" @click="save">
+        <b-button variant="dark" class="ml-2" v-if="mode === 'save'" @click="save">
           <i class="fa fa-send fa-lg"></i>
           Inserir
         </b-button>
-        <b-button variant="primary" class="ml-2" v-if="mode === 'edit'" @click="save">
+        <b-button variant="dark" class="ml-2" v-if="mode === 'edit'" @click="save">
           <i class="fa fa-pencil fa-lg"></i>
           Editar
         </b-button>
@@ -64,7 +64,7 @@
 
     <!-- INÍCIO DA LISTA -->
     <div v-if="!showCad">
-      <b-card class="mb-2">
+     
         <b-row>
           <b-col></b-col>
           <b-col>
@@ -81,12 +81,13 @@
         </b-row>
 
         <b-table
-          class="table mt-2"
+          class="mt-2"
           id="my-table"
           :items="divisions"
           :per-page="perPage"
           :current-page="currentPage"
           small
+          dark
           hover
           striped
           responsive
@@ -116,7 +117,7 @@
           :per-page="perPage"
           aria-controls="my-table"
         ></b-pagination>
-      </b-card>
+    
 
       <b-button variant="info" @click="showCad = true">
         <i class="fa fa-arrow-left fa-lg mr-1"></i>Formulário
@@ -281,37 +282,5 @@ export default {
 </script>
 
 <style>
-.card-form {
-  padding: 15px;
-  background-color: red;
-  margin-bottom: 10px;
-}
-.a-admin {
-  color: #808080;
-}
-.error {
-  margin-left: 5px;
-  color: #6d630e;
-  font-size: 11px;
-  font-weight: normal;
-  background-color: #fff3cd;
-  background-image: url(~@/assets/alert-icon-red.png);
-  background-size: 15px 15px;
-  background-repeat: no-repeat;
-  background-position: 2px;
-  padding: 3px;
-  border-radius: 5px 5px 5px;
-  border: 1px solid #dce0be;
-  padding-left: 20px;
-  position: relative;
-}
-.icon-title {
-  color: orange;
-}
-.icon-form {
-  color: rgba(5, 149, 201, 0.445);
-}
-.label-form {
-  color: #888;
-}
+
 </style>

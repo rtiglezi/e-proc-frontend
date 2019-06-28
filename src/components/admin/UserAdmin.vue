@@ -8,7 +8,7 @@
 
     <!-- INICIO FORMULÁRIO DE CADASTRO -->
     <b-form v-if="showCad" v-on:submit.prevent="onSubmit" v-on:keyup.enter="submitByKey">
-      <b-card class="mb-2">
+      <b-card class="mb-2" bg-variant="secondary" text-variant="white">
         <b-row>
           <b-col md="3" sm="12" class="text-center label-form">
             <i class="fa fa-users fa-5x icon-form" aria-hidden="true"></i>
@@ -49,7 +49,7 @@
         </b-row>
       </b-card>
 
-      <b-card class="mb-2">
+      <b-card class="mb-2"  bg-variant="dark" text-variant="white">
         <b-row>
           <b-col md="3" sm="12" class="text-center label-form">
             <i class="fa fa-key fa-5x icon-form" aria-hidden="true"></i>
@@ -92,11 +92,11 @@
       </b-card>
 
       <div class="text-right">
-        <b-button variant="primary" class="ml-2" v-if="mode === 'save'" @click="save">
+        <b-button variant="dark" class="ml-2" v-if="mode === 'save'" @click="save">
           <i class="fa fa-send fa-lg"></i>
           Inserir
         </b-button>
-        <b-button variant="primary" class="ml-2" v-if="mode === 'edit'" @click="save">
+        <b-button variant="dark" class="ml-2" v-if="mode === 'edit'" @click="save">
           <i class="fa fa-pencil fa-lg"></i>
           Editar
         </b-button>
@@ -118,7 +118,7 @@
 
     <!-- INÍCIO DA LISTA -->
     <div v-if="!showCad">
-      <b-card class="mb-2">
+     
         <b-row>
           <b-col></b-col>
           <b-col>
@@ -135,13 +135,14 @@
         </b-row>
 
         <b-table
-          class="table mt-2"
+          class="mt-2"
           id="my-table"
           :items="users"
           :per-page="perPage"
           :current-page="currentPage"
           small
           hover
+          dark
           striped
           responsive
           bordered
@@ -184,7 +185,7 @@
           :per-page="perPage"
           aria-controls="my-table"
         ></b-pagination>
-      </b-card>
+   
 
       <b-button variant="info" @click="showCad = true">
         <i class="fa fa-arrow-left fa-lg mr-1"></i>Formulário
@@ -360,14 +361,6 @@ export default {
 </script>
 
 <style>
-.card-form {
-  padding: 15px;
-  background-color: red;
-  margin-bottom: 10px;
-}
-.a-admin {
-  color: #808080;
-}
 .error {
   margin-left: 5px;
   color: #6d630e;
@@ -384,13 +377,11 @@ export default {
   padding-left: 20px;
   position: relative;
 }
-.icon-title {
-  color: orange;
-}
+
 .icon-form {
-  color: rgba(5, 149, 201, 0.445);
+  color: rgb(227, 236, 240);
 }
 .label-form {
-  color: #888;
+  color: rgb(214, 209, 209);
 }
 </style>

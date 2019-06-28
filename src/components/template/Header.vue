@@ -1,89 +1,87 @@
 <template>
-    <header class="header">
-       
-        <a class="toggle" @click="toggleMenu" v-if="!hideToggle">
-            <i class="fa fa-lg" :class="icon"></i>
-        </a>
-        
-        <h1 class="title">
-            <router-link to="/">{{ title }}</router-link>
-        </h1>
+  <header class="header">
+    <a class="toggle" @click="toggleMenu" v-if="!hideToggle">
+      <i class="fa fa-lg" :class="icon"></i>
+    </a>
 
-        <UserDropdown v-if="!hideUserDropdown" />
-    
-    </header>
+    <h1 class="title">
+      <router-link to="/">{{ title }}</router-link>
+    </h1>
 
+    <UserDropdown v-if="!hideUserDropdown"/>
+  </header>
 </template>
 
 <script>
-import UserDropdown from './UserDropdown'
+import UserDropdown from "./UserDropdown";
 
 export default {
-    name: 'Header',
-    components: { UserDropdown },
-    props: {
-        title: String,
-        hideToggle: Boolean,
-        hideUserDropdown: Boolean
-    },
-    computed: {
-        icon() {
-            return this.$store.state.isMenuVisible ? "fa fa-folder-open-o" : "fa fa-folder-o"
-        }
-    },
-    methods: {
-        toggleMenu() {
-            this.$store.commit('toggleMenu')
-        }
+  name: "Header",
+  components: { UserDropdown },
+  props: {
+    title: String,
+    hideToggle: Boolean,
+    hideUserDropdown: Boolean
+  },
+  computed: {
+    icon() {
+      return this.$store.state.isMenuVisible
+        ? "fa fa-folder-open-o"
+        : "fa fa-folder-o";
     }
-}
+  },
+  methods: {
+    toggleMenu() {
+      this.$store.commit("toggleMenu");
+    }
+  }
+};
 </script>
 
 <style>
-    .header {
-        grid-area: header;
-        background: #0594C9;
+.header {
+  grid-area: header;
+ 
+  display: flex;
+  justify-content: ri;
+  align-items: center;
 
-        display: flex;
-        justify-content: ri;
-        align-items: center;
+ background-image: linear-gradient( to bottom, #487380 92%,  #90D0E7 8% );
+}
 
-    }
+.title {
+  font-size: 1.3rem;
+  color: #fff;
+  font-weight: bold;
+  flex-grow: 1;
+  text-align: left;
+  margin-left: 10px;
+}
 
-    .title {
-        font-size: 1.3rem;
-        color: #fff;
-        font-weight: bold;
-        flex-grow: 1;
-        text-align: left;
-        margin-left: 10px;
-    }
+.title a {
+  color: #fff;
+  text-decoration: none;
+}
 
-    .title a {
-        color: #FFF;
-        text-decoration: none;
-    }
+.title a:hover {
+  color: #fff;
+  text-decoration: none;
+}
 
-    .title a:hover {
-        color: #FFF;
-        text-decoration: none;
-    }
+header.header > a.toggle {
+  width: 60px;
+  height: 100%;
+  color: #fff;
+  justify-self: flex-start;
+  text-decoration: none;
 
-    header.header > a.toggle {
-        width: 60px;
-        height: 100%;
-        color: #fff;
-        justify-self: flex-start;
-        text-decoration: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 
-        display: flex;
-        justify-content: center;
-        align-items: center;
-    }
-
-    header.header > a.toggle:hover {
-        color: #fff;
-        background-color: rgba(0, 0, 0, 0.2);
-    }
-
+header.header > a.toggle:hover {
+  color: #fff;
+  background-color: rgba(0, 0, 0, 0.2);
+}
 </style>
