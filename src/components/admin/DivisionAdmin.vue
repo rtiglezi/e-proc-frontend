@@ -8,10 +8,10 @@
 
     <!-- INICIO FORMULÁRIO DE CADASTRO -->
     <b-form v-if="showCad" v-on:submit.prevent="onSubmit" v-on:keyup.enter="submitByKey">
-      <b-card class="mb-2" bg-variant="danger" text-variant="white">
+      <b-card class="adm-box mb-2">
         <b-row>
-          <b-col md="3" sm="12" class="text-center label-form">
-            <i class="fa fa-sitemap fa-5x icon-form" aria-hidden="true"></i>
+          <b-col md="3" sm="12" class="adm-box-ico">
+            <i class="fa fa-sitemap fa-5x" aria-hidden="true"></i>
             <br>UNIDADES
             <br>Dados Cadastrais
           </b-col>
@@ -32,29 +32,28 @@
                 class="error"
               >{{ errors.first('Nome') }}</span>
             </b-form-group>
-
           </b-col>
         </b-row>
       </b-card>
 
       <div class="text-right">
-        <b-button variant="dark" class="ml-2" v-if="mode === 'save'" @click="save">
+        <b-button class="ml-2" v-if="mode === 'save'" @click="save">
           <i class="fa fa-send fa-lg"></i>
           Inserir
         </b-button>
-        <b-button variant="dark" class="ml-2" v-if="mode === 'edit'" @click="save">
+        <b-button class="ml-2" v-if="mode === 'edit'" @click="save">
           <i class="fa fa-pencil fa-lg"></i>
           Editar
         </b-button>
-        <b-button variant="danger" class="ml-2" v-if="mode === 'remove'" @click="remove">
+        <b-button class="ml-2" v-if="mode === 'remove'" @click="remove">
           <i class="fa fa-trash fa-lg"></i>
           Excluir?
         </b-button>
-        <b-button variant="secondary" @click="refresh(true)" class="ml-2">
+        <b-button @click="refresh(true)" class="ml-2">
           <i class="fa fa-eraser fa-lg"></i>
           Limpar
         </b-button>
-        <b-button variant="info" @click="showCad = false" class="ml-4">
+        <b-button @click="showCad = false" class="ml-4">
           Listagem
           <i class="fa fa-arrow-right fa-lg ml-1"></i>
         </b-button>
@@ -64,30 +63,28 @@
 
     <!-- INÍCIO DA LISTA -->
     <div v-if="!showCad">
-     
-        <b-row>
-          <b-col></b-col>
-          <b-col>
-            <div class="text-center">Total de {{ totalRows }} registro(s)</div>
-          </b-col>
-          <b-col>
-            <b-input-group>
-              <b-form-input small ref="txtFilter" v-model="filter" placeholder="Busca rápida ..."></b-form-input>
-              <b-input-group-append>
-                <b-button :disabled="!filter" @click="filter = ''">Limpar</b-button>
-              </b-input-group-append>
-            </b-input-group>
-          </b-col>
-        </b-row>
+      <b-row>
+        <b-col></b-col>
+        <b-col>
+          <div class="text-center">Total de {{ totalRows }} registro(s)</div>
+        </b-col>
+        <b-col>
+          <b-input-group>
+            <b-form-input small ref="txtFilter" v-model="filter" placeholder="Busca rápida ..."></b-form-input>
+            <b-input-group-append>
+              <b-button :disabled="!filter" @click="filter = ''">Limpar</b-button>
+            </b-input-group-append>
+          </b-input-group>
+        </b-col>
+      </b-row>
 
+      <b-card class="mt-1 mb-2">
         <b-table
-          class="mt-2"
           id="my-table"
           :items="divisions"
           :per-page="perPage"
           :current-page="currentPage"
           small
-          dark
           hover
           striped
           responsive
@@ -96,32 +93,35 @@
           :fields="fields"
           @filtered="onFiltered"
         >
-         
           <template slot="actions" slot-scope="data">
-            <b-button variant="outline-primary" @click="loadDivision(data.item, 'edit')">
+            <b-button @click="loadDivision(data.item, 'edit')">
               <i class="fa fa-pencil" title="Editar o registro."></i>
             </b-button>
 
-            <b-button variant="outline-danger" class="ml-1" @click="loadDivision(data.item, 'remove')">
+            <b-button class="ml-1" @click="loadDivision(data.item, 'remove')">
               <i class="fa fa-trash" title="Excluir o registro."></i>
             </b-button>
           </template>
-         
         </b-table>
+      </b-card>
 
-        <b-pagination
-          small
-          align="right"
-          v-model="currentPage"
-          :total-rows="totalRows"
-          :per-page="perPage"
-          aria-controls="my-table"
-        ></b-pagination>
-    
-
-      <b-button variant="info" @click="showCad = true">
-        <i class="fa fa-arrow-left fa-lg mr-1"></i>Formulário
-      </b-button>
+      <b-row>
+        <b-col>
+          <b-button @click="showCad = true">
+            <i class="fa fa-arrow-left fa-lg mr-1"></i>Formulário
+          </b-button>
+        </b-col>
+        <b-col>
+          <b-pagination
+            small
+            align="right"
+            v-model="currentPage"
+            :total-rows="totalRows"
+            :per-page="perPage"
+            aria-controls="my-table"
+          ></b-pagination>
+        </b-col>
+      </b-row>
     </div>
     <!-- FINAL DA LISTA -->
   </div>
@@ -146,7 +146,7 @@ export default {
       totalRows: 1,
       filter: null,
       currentPage: 1,
-      perPage: 10,
+      perPage: 7,
       pageOptions: [5, 10, 15],
       options: [],
 
@@ -191,7 +191,6 @@ export default {
       });
     },
     save() {
-      
       const method = this.division._id ? "patch" : "post";
       const id = this.division._id ? `/${this.division._id}` : "";
 
@@ -260,13 +259,13 @@ export default {
 
       if (doRefreshPage) {
         let msg = "Formulário pronto para nova inserção.";
-        this.$router.push(`/admin/confirm?origin=division&msg=${msg}`);
+        this.$router.push(`/admin/confirm?origin=divisions&msg=${msg}`);
       }
     },
-    submitByKey (){
-      if (this.mode === 'save' || this.mode === 'edit') {
+    submitByKey() {
+      if (this.mode === "save" || this.mode === "edit") {
         this.save();
-      } else if (this.mode === 'remove') {
+      } else if (this.mode === "remove") {
         this.remove();
       }
     }
@@ -276,11 +275,10 @@ export default {
       this.mode = "save";
     }
     this.loadDivisions();
-     this.setFocus();
+    this.setFocus();
   }
 };
 </script>
 
 <style>
-
 </style>

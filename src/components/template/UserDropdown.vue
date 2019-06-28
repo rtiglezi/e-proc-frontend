@@ -3,7 +3,9 @@
         <div class="user-button">
             <span class="d-none d-sm-block">{{ user.name }}</span>
             <div class="user-dropdown-img">
-                <Gravatar :email="user.email" alt="User" />
+                <div class="avatar">
+                    {{ user.name.charAt(0) }}
+                </div>
             </div>
             <i class="fa fa-angle-down"></i>
         </div>
@@ -99,5 +101,16 @@ export default {
         text-decoration: none;
         color: #000;
         background-color: #EDEDED;
+    }
+
+    .avatar {
+        width: 35px;
+        height: 35px;
+        background-color: rgba(255, 255, 255, 0.158);
+        color: rgba(255, 255, 255, 0.774);
+        border-radius: 50px;
+        text-align: center;
+        font-size: 22px;
+
     }
 </style>

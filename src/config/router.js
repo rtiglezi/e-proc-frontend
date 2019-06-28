@@ -20,13 +20,13 @@ const routes = [
   { name: "auth", path: "/auth", component: Auth },
   {
     name: "userAdmin",
-    path: "/admin/user",
+    path: "/admin/users",
     component: UserAdmin,
     meta: { requiresAdmin: true }
   },
   {
     name: "divisionAdmin",
-    path: "/admin/division",
+    path: "/admin/divisions",
     component: DivisionAdmin,
     meta: { requiresAdmin: true }
   },

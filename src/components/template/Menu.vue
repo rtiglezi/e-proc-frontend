@@ -8,12 +8,12 @@
           </a>
         </li>
         <li>
-          <a href="#" @click="navigate('/admin/user')">
+          <a href="#" @click="navigate('/admin/users')">
             <span><i class="fa fa-users mr-2"></i>Usuários</span>
           </a>
         </li>
         <li>
-          <a href="#" @click="navigate('/admin/division')">
+          <a href="#" @click="navigate('/admin/divisions')">
             <span><i class="fa fa-sitemap mr-2"></i>Unidades</span>
           </a>
         </li>
@@ -112,10 +112,7 @@ export default {
 #cssmenu > ul li:hover > a {
   color: #ffffff;
   text-shadow: 0 1px 0 rgba(0, 0, 0, 0.3);
-  background: #244853;
-  background: -webkit-linear-gradient(#244853, #244853);
-  background: -moz-linear-gradient(#244853, #244853);
-  background: linear-gradient(#244853, #244853);
+  background: #070707;
   border-color: transparent;
 }
 /* The arrow indicating a submenu */

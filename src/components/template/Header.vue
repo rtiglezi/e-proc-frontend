@@ -46,12 +46,12 @@ export default {
   justify-content: ri;
   align-items: center;
 
- background-image: linear-gradient( to bottom, #487380 92%,  #90D0E7 8% );
+ background-image: linear-gradient( to bottom, rgb(82, 78, 78) 92%,  rgb(255, 255, 255) 8% );
 }
 
 .title {
   font-size: 1.3rem;
-  color: #fff;
+  color: white;
   font-weight: bold;
   flex-grow: 1;
   text-align: left;
@@ -59,19 +59,19 @@ export default {
 }
 
 .title a {
-  color: #fff;
+  color: white;
   text-decoration: none;
 }
 
 .title a:hover {
-  color: #fff;
+  color: white;
   text-decoration: none;
 }
 
 header.header > a.toggle {
   width: 60px;
   height: 100%;
-  color: #fff;
+  color: white;
   justify-self: flex-start;
   text-decoration: none;
 
@@ -81,7 +81,7 @@ header.header > a.toggle {
 }
 
 header.header > a.toggle:hover {
-  color: #fff;
+  color: white;
   background-color: rgba(0, 0, 0, 0.2);
 }
 </style>

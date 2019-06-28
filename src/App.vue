@@ -31,6 +31,7 @@ body {
   margin: 0;
 }
 
+
 #app {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -57,6 +58,16 @@ body {
     "header header"
     "content content"
     "footer footer";
+}
+
+
+.adm-box {
+  background-color: #ccc;
+  color: black;
+}
+.adm-box-ico {
+  color: rgba(5, 5, 5, 0.5);
+  text-align: center;
 }
 </style>
 
