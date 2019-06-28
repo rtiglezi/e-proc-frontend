@@ -7,6 +7,7 @@ import DivisionAdmin from "@/components/admin/DivisionAdmin";
 
 import Confirm from "@/components/admin/Confirm";
 
+import Auth from "@/components/auth/Auth";
 
 Vue.use(VueRouter);
 
@@ -16,6 +17,7 @@ const routes = [
     path: "/",
     component: Home
   },
+  { name: "auth", path: "/auth", component: Auth },
   {
     name: "userAdmin",
     path: "/admin/user",

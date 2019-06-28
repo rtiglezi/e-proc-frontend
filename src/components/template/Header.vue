@@ -45,8 +45,9 @@ export default {
         background: #0594C9;
 
         display: flex;
-        justify-content: center;
+        justify-content: ri;
         align-items: center;
+
     }
 
     .title {
