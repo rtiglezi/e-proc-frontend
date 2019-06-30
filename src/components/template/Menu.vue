@@ -44,7 +44,7 @@ export default {
 <style>
 .menu {
   grid-area: menu;
-  background: rgb(58, 56, 56);
+  background: #232F3E;
 
   display: flex;
   flex-direction: column;
@@ -93,7 +93,7 @@ export default {
   font-weight: 300;
   /* Background & effects */
 
-  background: #282828;
+  background: rgb(27, 36, 48);
 }
 /* Rounded corners for the first link of the menu/submenus */
 #cssmenu > ul li:first-child > a {
@@ -110,9 +110,9 @@ export default {
 /* The hover state of the menu/submenu links */
 #cssmenu > ul li > a:hover,
 #cssmenu > ul li:hover > a {
-  color: #ffffff;
+  color: #E38C2E;
   text-shadow: 0 1px 0 rgba(0, 0, 0, 0.3);
-  background: #070707;
+  background: rgba(0, 0, 0, 0.3);
   border-color: transparent;
 }
 /* The arrow indicating a submenu */

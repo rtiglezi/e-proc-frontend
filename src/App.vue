@@ -60,14 +60,31 @@ body {
     "footer footer";
 }
 
+.error {
+  margin-left: 5px;
+  color: #6d630e;
+  font-size: 11px;
+  font-weight: normal;
+  background-color: #fff3cd;
+  background-image: url(~@/assets/alert-icon-red.png);
+  background-size: 15px 15px;
+  background-repeat: no-repeat;
+  background-position: 2px;
+  padding: 3px;
+  border-radius: 5px 5px 5px;
+  border: 1px solid #dce0be;
+  padding-left: 20px;
+  position: relative;
+}
 
 .adm-box {
-  background-color: #ccc;
+  background-color: #eee;
   color: black;
 }
 .adm-box-ico {
-  color: rgba(5, 5, 5, 0.5);
+  color: #72777c;
   text-align: center;
 }
+
 </style>
 

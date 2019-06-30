@@ -46,7 +46,7 @@ export default {
   justify-content: ri;
   align-items: center;
 
- background-image: linear-gradient( to bottom, rgb(82, 78, 78) 92%,  rgb(255, 255, 255) 8% );
+ background-image: linear-gradient( to bottom, #232F3E 92%,  #E38C2E 8% );
 }
 
 .title {

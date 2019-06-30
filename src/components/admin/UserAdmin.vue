@@ -100,15 +100,15 @@
           <i class="fa fa-pencil fa-lg"></i>
           Editar
         </b-button>
-        <b-button class="ml-2" v-if="mode === 'remove'" @click="remove">
+        <b-button variant="danger" class="ml-2" v-if="mode === 'remove'" @click="remove">
           <i class="fa fa-trash fa-lg"></i>
           Excluir?
         </b-button>
-        <b-button @click="refresh(true)" class="ml-2">
+        <b-button  @click="refresh(true)" class="btn-clean ml-2">
           <i class="fa fa-eraser fa-lg"></i>
           Limpar
         </b-button>
-        <b-button @click="showCad = false" class="ml-4">
+        <b-button @click="showCad = false" class="btn-list ml-4">
           Listagem
           <i class="fa fa-arrow-right fa-lg ml-1"></i>
         </b-button>
@@ -169,7 +169,7 @@
               <i class="fa fa-pencil" title="Editar o registro."></i>
             </b-button>
 
-            <b-button class="ml-1" @click="loadUser(data.item, 'remove')">
+            <b-button variant="danger" class="ml-1" @click="loadUser(data.item, 'remove')">
               <i class="fa fa-trash" title="Excluir o registro."></i>
             </b-button>
           </template>
@@ -371,20 +371,5 @@ export default {
 </script>
 
 <style>
-.error {
-  margin-left: 5px;
-  color: #6d630e;
-  font-size: 11px;
-  font-weight: normal;
-  background-color: #fff3cd;
-  background-image: url(~@/assets/alert-icon-red.png);
-  background-size: 15px 15px;
-  background-repeat: no-repeat;
-  background-position: 2px;
-  padding: 3px;
-  border-radius: 5px 5px 5px;
-  border: 1px solid #dce0be;
-  padding-left: 20px;
-  position: relative;
-}
+
 </style>
