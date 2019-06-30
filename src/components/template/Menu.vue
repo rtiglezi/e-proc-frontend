@@ -1,25 +1,31 @@
 <template>
   <aside class="menu" v-show="isMenuVisible">
     <div id="cssmenu">
-      <ul>
+      <ul v-if="isAdmin">
         <li>
           <a>
-            <span>Administração</span>
+            <span>Adminsitração</span>
           </a>
         </li>
         <li>
           <a href="#" @click="navigate('/admin/users')">
-            <span><i class="fa fa-users mr-2"></i>Usuários</span>
+            <span>
+              <i class="fa fa-users mr-2"></i>Usuários
+            </span>
           </a>
         </li>
         <li>
           <a href="#" @click="navigate('/admin/divisions')">
-            <span><i class="fa fa-sitemap mr-2"></i>Unidades</span>
+            <span>
+              <i class="fa fa-sitemap mr-2"></i>Unidades
+            </span>
           </a>
         </li>
         <li>
           <a href="#">
-            <span><i class="fa fa-file mr-2"></i>Pedidos</span>
+            <span>
+              <i class="fa fa-file mr-2"></i>Pedidos
+            </span>
           </a>
         </li>
       </ul>
@@ -28,15 +34,26 @@
 </template>
 
 <script>
+import { userKey } from "@/global";
 import { mapState } from "vuex";
 
 export default {
   name: "Menu",
   computed: mapState(["isMenuVisible"]),
+  data: function(){
+    return {
+      isAdmin: false
+      }; 
+  },
   methods: {
     navigate(link) {
       this.$router.push(link);
     }
+  },
+  mounted() {
+    const json = localStorage.getItem(userKey)
+    const user = JSON.parse(json)
+    this.isAdmin = (user.profiles.indexOf("admin") != -1)
   }
 };
 </script>
@@ -44,8 +61,7 @@ export default {
 <style>
 .menu {
   grid-area: menu;
-  background: #232F3E;
-
+  background: #232f3e;
   display: flex;
   flex-direction: column;
   flex-wrap: wrap;
@@ -110,9 +126,9 @@ export default {
 /* The hover state of the menu/submenu links */
 #cssmenu > ul li > a:hover,
 #cssmenu > ul li:hover > a {
-  color: #E38C2E;
+  color: #e38c2e;
   text-shadow: 0 1px 0 rgba(0, 0, 0, 0.3);
-  background: rgba(0, 0, 0, 0.3);
+  background: rgba(0, 0, 0, 0.7);
   border-color: transparent;
 }
 /* The arrow indicating a submenu */

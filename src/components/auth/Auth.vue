@@ -27,15 +27,18 @@ export default {
       axios
         .post(`${baseApiUrl}/users/authenticate`, this.user)
         .then(res => {
-                    this.$store.commit('setUser', res.data)
-                    localStorage.setItem(userKey, JSON.stringify(res.data))
-                    this.$router.push({ path: '/' })
-                })
-                .catch(e => {
-                  if (e) {
-                    showError("Credenciais inválidas.")
-                    }
-                  })
+          this.$store.commit("setUser", res.data);
+          localStorage.setItem(userKey, JSON.stringify(res.data));
+          this.$router.push({ path: "/" });
+          this.$toasted.global.defaultSuccess({
+            msg: `Bem-vindo, ${res.data.name}.`
+          });
+        })
+        .catch(e => {
+          if (e) {
+            showError("Credenciais inválidas.");
+          }
+        });
     }
   }
 };

@@ -1,20 +1,20 @@
 <template>
-    <div class="content">
-        <router-view></router-view>
-    </div>
+  <div class="content">
+    <router-view></router-view>
+  </div>
 </template>
 
 <script>
 export default {
-    name: 'Content'
-}
+  name: "Content"
+};
 </script>
 
 <style>
-    .content {
-        grid-area: content;
-        background-color: #39485C;
-        padding: 15px;
-        color: black;
-    }
+.content {
+  grid-area: content;
+  background-color: #232f3e;
+  padding: 15px;
+  color: white;
+}
 </style>

@@ -12,8 +12,8 @@
         <b-row>
           <b-col md="3" sm="12" class="adm-box-ico">
             <i class="fa fa-users fa-5x" aria-hidden="true"></i>
-            <br>USUÁRIOS
-            <br>Dados cadastrais
+            <br>Dados Cadastrais do
+            <br>USUÁRIO
           </b-col>
           <b-col md="9" sm="12">
             <b-form-group label="Nome *" label-for="userName">
@@ -29,7 +29,7 @@
               <span
                 ref="spnNome"
                 v-if="showSpanError('Nome')"
-                class="error"
+                class="adm-msg-error"
               >{{ errors.first('Nome') }}</span>
             </b-form-group>
 
@@ -43,7 +43,10 @@
                 :readonly="mode === 'remove'"
                 v-validate="'required|email'"
               ></b-form-input>
-              <span v-if="showSpanError('E-mail')" class="error">{{ errors.first('E-mail') }}</span>
+              <span
+                v-if="showSpanError('E-mail')"
+                class="adm-msg-error"
+              >{{ errors.first('E-mail') }}</span>
             </b-form-group>
           </b-col>
         </b-row>
@@ -73,7 +76,10 @@
           </b-col>
 
           <b-col md="4" sm="12">
-            <b-form-group label="Unidades a que tem acesso:" label-for="user-allowedDivisions">
+            <b-form-group
+              label="Unidades a que este usuário tem acesso:"
+              label-for="user-allowedDivisions"
+            >
               <b-form-checkbox-group
                 stacked
                 id="user-allowedDivisions"
@@ -92,11 +98,11 @@
       </b-card>
 
       <div class="text-right">
-        <b-button class="ml-2" v-if="mode === 'save'" @click="save">
+        <b-button class="adm-btn-main ml-2" v-if="mode === 'save'" @click="save">
           <i class="fa fa-send fa-lg"></i>
           Inserir
         </b-button>
-        <b-button class="ml-2" v-if="mode === 'edit'" @click="save">
+        <b-button class="adm-btn-main ml-2" v-if="mode === 'edit'" @click="save">
           <i class="fa fa-pencil fa-lg"></i>
           Editar
         </b-button>
@@ -104,7 +110,7 @@
           <i class="fa fa-trash fa-lg"></i>
           Excluir?
         </b-button>
-        <b-button  @click="refresh(true)" class="btn-clean ml-2">
+        <b-button @click="refresh(true)" class="btn-clean ml-2">
           <i class="fa fa-eraser fa-lg"></i>
           Limpar
         </b-button>
@@ -133,7 +139,7 @@
         </b-col>
       </b-row>
 
-      <b-card class="mt-1 mb-2">
+      <b-card class="adm-box-table mt-1 mb-2">
         <b-table
           id="my-table"
           :items="users"
@@ -225,35 +231,41 @@ export default {
       users: [],
       fields: [
         {
-          key: "_id",
-          label: "Código",
-          sortable: true
+          key: "created_at",
+          label: "Cadastro",
+          sortable: true,
+          thClass: "adm-table-th"
         },
         {
           key: "name",
           label: "Nome",
-          sortable: true
+          sortable: true,
+          thClass: "adm-table-th"
         },
         {
           key: "email",
           label: "E-mail",
-          sortable: true
+          sortable: true,
+          thClass: "adm-table-th"
         },
         {
           key: "profiles",
           label: "Perfis",
-          sortable: true
+          sortable: true,
+          thClass: "adm-table-th"
         },
         {
           key: "allowedDivisionsDetails",
           label: "Unidades",
-          sortable: true
+          sortable: true,
+          thClass: "adm-table-th"
         },
         {
           key: "actions",
           label: "Ações",
           sortable: false,
-          class: "text-center"
+          class: "text-center",
+          thClass: "adm-table-th"
         }
       ]
     };
@@ -311,9 +323,11 @@ export default {
     },
     loadUsers() {
       const url = `${baseApiUrl}/users`;
-      axios.get(url).then(res => {
-        this.users = res.data;
-      });
+      axios
+        .get(url)
+        .then(res => {
+          this.users = res.data;
+        })
     },
     onFiltered(filteredItems) {
       // Trigger pagination to update the number of buttons/pages due to filtering
@@ -371,5 +385,4 @@ export default {
 </script>
 
 <style>
-
 </style>

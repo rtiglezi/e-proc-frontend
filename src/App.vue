@@ -1,24 +1,55 @@
 <template>
   <div id="app" :class="{'hide-menu': !isMenuVisible || !user}">
     <Header title="[e-Proc 2]" :hideToggle="!user" :hideUserDropdown="!user"/>
-    <Menu v-if="user"/>
-    <Content/>
-    <Footer/>
+    <Menu v-if="user" />
+		<Loading v-if="validatingToken" />
+		<Content v-else />
+		<Footer />
   </div>
 </template>
 
 
 <script>
+import { userKey } from "@/global";
 import { mapState } from "vuex";
 import Header from "@/components/template/Header";
 import Menu from "@/components/template/Menu";
 import Content from "@/components/template/Content";
 import Footer from "@/components/template/Footer";
+import Loading from "@/components/template/Loading"
 
 export default {
   name: "App",
-  components: { Header, Menu, Content, Footer },
-  computed: mapState(["isMenuVisible", "user"])
+  components: { Header, Menu, Content, Footer, Loading },
+  computed: mapState(["isMenuVisible", "user"]),
+  data: function() {
+    return {
+      validatingToken: true
+    };
+  },
+  methods: {
+    async validateToken() {
+      this.validatingToken = true;
+
+      const json = localStorage.getItem(userKey);
+
+      const userData = JSON.parse(json);
+      this.$store.commit("setUser", null);
+
+      if (!userData) {
+        this.validatingToken = false;
+        localStorage.removeItem(userKey);
+        this.$router.push({ name: "auth" });
+      } else {
+        this.$store.commit("setUser", userData);
+      }
+
+      this.validatingToken = false;
+    }
+  },
+  created() {
+    this.validateToken();   
+  }
 };
 </script>
 
@@ -30,7 +61,6 @@ export default {
 body {
   margin: 0;
 }
-
 
 #app {
   -webkit-font-smoothing: antialiased;
@@ -60,7 +90,18 @@ body {
     "footer footer";
 }
 
-.error {
+.adm-box {
+  background-color: rgba(255, 255, 255, 0.1);
+  color: rgba(255, 255, 255, 0.8);
+}
+.adm-box-ico {
+  color: rgba(255, 255, 255, 0.5);
+  text-align: center;
+}
+.adm-box-table {
+  color: #222;
+}
+.adm-msg-error {
   margin-left: 5px;
   color: #6d630e;
   font-size: 11px;
@@ -76,15 +117,17 @@ body {
   padding-left: 20px;
   position: relative;
 }
-
-.adm-box {
-  background-color: #eee;
-  color: black;
+.adm-btn-main {
+  background-color: white;
+  color: #39485c;
 }
-.adm-box-ico {
-  color: #72777c;
-  text-align: center;
+.adm-btn-main:hover {
+  background-color: darkorange;
+  color: white;
 }
-
+.adm-table-th {
+  background-color: #46505c;
+  color: white;
+}
 </style>
 

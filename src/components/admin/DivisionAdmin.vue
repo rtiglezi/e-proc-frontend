@@ -12,8 +12,8 @@
         <b-row>
           <b-col md="3" sm="12" class="adm-box-ico">
             <i class="fa fa-sitemap fa-5x" aria-hidden="true"></i>
-            <br>UNIDADES
-            <br>Dados Cadastrais
+            <br>Dados cadastrais da
+            <br>UNIDADE
           </b-col>
           <b-col md="9" sm="12">
             <b-form-group label="Nome *" label-for="divisionName">
@@ -29,7 +29,7 @@
               <span
                 ref="spnNome"
                 v-if="showSpanError('Nome')"
-                class="error"
+                class="adm-msg-error"
               >{{ errors.first('Nome') }}</span>
             </b-form-group>
           </b-col>
@@ -37,15 +37,15 @@
       </b-card>
 
       <div class="text-right">
-        <b-button class="ml-2" v-if="mode === 'save'" @click="save">
+        <b-button class="adm-btn-main ml-2" v-if="mode === 'save'" @click="save">
           <i class="fa fa-send fa-lg"></i>
           Inserir
         </b-button>
-        <b-button class="ml-2" v-if="mode === 'edit'" @click="save">
+        <b-button class="adm-btn-main ml-2" v-if="mode === 'edit'" @click="save">
           <i class="fa fa-pencil fa-lg"></i>
           Editar
         </b-button>
-        <b-button class="ml-2" v-if="mode === 'remove'" @click="remove">
+        <b-button variant="danger" class="ml-2" v-if="mode === 'remove'" @click="remove">
           <i class="fa fa-trash fa-lg"></i>
           Excluir?
         </b-button>
@@ -78,7 +78,7 @@
         </b-col>
       </b-row>
 
-      <b-card class="mt-1 mb-2">
+      <b-card class="adm-box-table mt-1 mb-2">
         <b-table
           id="my-table"
           :items="divisions"
@@ -98,7 +98,7 @@
               <i class="fa fa-pencil" title="Editar o registro."></i>
             </b-button>
 
-            <b-button class="ml-1" @click="loadDivision(data.item, 'remove')">
+            <b-button variant="danger" class="ml-1" @click="loadDivision(data.item, 'remove')">
               <i class="fa fa-trash" title="Excluir o registro."></i>
             </b-button>
           </template>
@@ -152,25 +152,18 @@ export default {
 
       fields: [
         {
-          key: "links",
-          label: "Links",
-          sortable: false,
-          thClass: "d-none",
-          tdClass: "d-none"
-        },
-        {
           key: "_id",
           label: "Código",
           sortable: true,
-          thClass: "d-none",
-          tdClass: "d-none"
+          thClass: "adm-table-th",
         },
-        { key: "name", label: "Nome", sortable: true },
+        { key: "name", label: "Nome", sortable: true,   thClass: "adm-table-th" },
         {
           key: "actions",
           label: "Ações",
           sortable: false,
-          class: "text-center"
+          class: "text-center",
+          thClass: "adm-table-th"
         }
       ]
     };
@@ -180,7 +173,7 @@ export default {
       const url = `${baseApiUrl}/divisions`;
       axios.get(url).then(res => {
         this.divisions = res.data;
-      });
+      })
     },
     loadDivision(division, mode) {
       this.mode = mode;

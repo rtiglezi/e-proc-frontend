@@ -41,12 +41,10 @@ export default {
 <style>
 .header {
   grid-area: header;
- 
   display: flex;
   justify-content: ri;
   align-items: center;
-
- background-image: linear-gradient( to bottom, #232F3E 92%,  #E38C2E 8% );
+  background-image: linear-gradient(to bottom, #232f3e 92%, #e38c2e 8%);
 }
 
 .title {
@@ -81,7 +79,7 @@ header.header > a.toggle {
 }
 
 header.header > a.toggle:hover {
-  color: white;
-  background-color: rgba(0, 0, 0, 0.2);
+  color: #e38c2e;
+  cursor: pointer;
 }
 </style>
