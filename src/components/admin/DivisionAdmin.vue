@@ -64,7 +64,6 @@
     <!-- INÍCIO DA LISTA -->
     <div v-if="!showCad">
       <b-row>
-        <b-col></b-col>
         <b-col>
           <div class="text-center">Total de {{ totalRows }} registro(s)</div>
         </b-col>
@@ -78,7 +77,7 @@
         </b-col>
       </b-row>
 
-      <b-card class="adm-box-table mt-1 mb-2">
+      <b-card class="adm-box-table mt-2 mb-2">
         <b-table
           id="my-table"
           :items="divisions"

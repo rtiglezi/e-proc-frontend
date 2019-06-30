@@ -4,6 +4,7 @@ import VeeValidate from "vee-validate";
 import "font-awesome/css/font-awesome.css";
 import "./config/bootstrap";
 import "./config/msgs";
+import "./config/axios";
 
 import App from "./App";
 import pt_BR from 'vee-validate/dist/locale/pt_BR';

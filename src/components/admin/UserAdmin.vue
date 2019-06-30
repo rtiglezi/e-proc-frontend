@@ -125,7 +125,6 @@
     <!-- INÍCIO DA LISTA -->
     <div v-if="!showCad">
       <b-row>
-        <b-col></b-col>
         <b-col>
           <div class="text-center">Total de {{ totalRows }} registro(s)</div>
         </b-col>
@@ -139,7 +138,7 @@
         </b-col>
       </b-row>
 
-      <b-card class="adm-box-table mt-1 mb-2">
+      <b-card class="adm-box-table mt-2 mb-2">
         <b-table
           id="my-table"
           :items="users"
@@ -323,11 +322,9 @@ export default {
     },
     loadUsers() {
       const url = `${baseApiUrl}/users`;
-      axios
-        .get(url)
-        .then(res => {
-          this.users = res.data;
-        })
+      axios.get(url).then(res => {
+        this.users = res.data;
+      });
     },
     onFiltered(filteredItems) {
       // Trigger pagination to update the number of buttons/pages due to filtering
@@ -359,7 +356,7 @@ export default {
       }
 
       this.loadUsers();
-
+      
       if (doRefreshPage) {
         let msg = "Formulário pronto para nova inserção.";
         this.$router.push(`/admin/confirm?origin=users&msg=${msg}`);

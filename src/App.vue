@@ -1,10 +1,10 @@
 <template>
   <div id="app" :class="{'hide-menu': !isMenuVisible || !user}">
     <Header title="[e-Proc 2]" :hideToggle="!user" :hideUserDropdown="!user"/>
-    <Menu v-if="user" />
-		<Loading v-if="validatingToken" />
-		<Content v-else />
-		<Footer />
+    <Menu v-if="user"/>
+    <Loading v-if="validatingToken"/>
+    <Content v-else/>
+    <Footer/>
   </div>
 </template>
 
@@ -16,7 +16,7 @@ import Header from "@/components/template/Header";
 import Menu from "@/components/template/Menu";
 import Content from "@/components/template/Content";
 import Footer from "@/components/template/Footer";
-import Loading from "@/components/template/Loading"
+import Loading from "@/components/template/Loading";
 
 export default {
   name: "App",
@@ -48,7 +48,7 @@ export default {
     }
   },
   created() {
-    this.validateToken();   
+    this.validateToken();
   }
 };
 </script>
