@@ -12,8 +12,8 @@
         <b-row>
           <b-col md="3" sm="12" class="adm-box-ico">
             <i class="fa fa-users fa-5x" aria-hidden="true"></i>
-            <br>Dados Cadastrais do
-            <br>USUÁRIO
+            <br />Dados Cadastrais do
+            <br />USUÁRIO
           </b-col>
           <b-col md="9" sm="12">
             <b-form-group label="Nome *" label-for="userName">
@@ -56,8 +56,8 @@
         <b-row>
           <b-col md="3" sm="12" class="adm-box-ico">
             <i class="fa fa-key fa-5x" aria-hidden="true"></i>
-            <br>Pefis e
-            <br>Permissões
+            <br />Pefis e
+            <br />Permissões
           </b-col>
 
           <b-col md="4" sm="12">
@@ -138,48 +138,45 @@
         </b-col>
       </b-row>
 
-      <b-card class="adm-box-table mt-2 mb-2">
-        <b-table
-          id="my-table"
-          :items="users"
-          :per-page="perPage"
-          :current-page="currentPage"
-          striped
-          bordered
-          responsive
-          hover
-          small
-          :filter="filter"
-          :fields="fields"
-          @filtered="onFiltered"
-        >
-          <template slot="profiles" slot-scope="row">
-            <ul>
-              <li v-for="(value, key) in row.item.profiles" :key="key">{{ value }}</li>
-            </ul>
-          </template>
+      <b-table
+        class="mt-3"
+        id="my-table"
+        :items="users"
+        :per-page="perPage"
+        :current-page="currentPage"
+        bordered
+        responsive
+        small
+        :filter="filter"
+        :fields="fields"
+        @filtered="onFiltered"
+      >
+        <template slot="profiles" slot-scope="row">
+          <ul>
+            <li v-for="(value, key) in row.item.profiles" :key="key">{{ value }}</li>
+          </ul>
+        </template>
 
-          <template slot="allowedDivisionsDetails" slot-scope="row">
-            <ul>
-              <li
-                v-for="(item, index) in row.item.allowedDivisionsDetails"
-                :key="item.id"
-                :index="index"
-              >{{row.item.allowedDivisionsDetails[index].name}}</li>
-            </ul>
-          </template>
+        <template slot="allowedDivisionsDetails" slot-scope="row">
+          <ul>
+            <li
+              v-for="(item, index) in row.item.allowedDivisionsDetails"
+              :key="item.id"
+              :index="index"
+            >{{row.item.allowedDivisionsDetails[index].name}}</li>
+          </ul>
+        </template>
 
-          <template slot="actions" slot-scope="data">
-            <b-button @click="loadUser(data.item, 'edit')">
-              <i class="fa fa-pencil" title="Editar o registro."></i>
-            </b-button>
+        <template slot="actions" slot-scope="data">
+          <b-button @click="loadUser(data.item, 'edit')">
+            <i class="fa fa-pencil" title="Editar o registro."></i>
+          </b-button>
 
-            <b-button variant="danger" class="ml-1" @click="loadUser(data.item, 'remove')">
-              <i class="fa fa-trash" title="Excluir o registro."></i>
-            </b-button>
-          </template>
-        </b-table>
-      </b-card>
+          <b-button variant="danger" class="ml-1" @click="loadUser(data.item, 'remove')">
+            <i class="fa fa-trash" title="Excluir o registro."></i>
+          </b-button>
+        </template>
+      </b-table>
 
       <b-row>
         <b-col>
@@ -233,38 +230,44 @@ export default {
           key: "created_at",
           label: "Cadastro",
           sortable: true,
-          thClass: "adm-table-th"
+          thClass: "adm-table-th",
+          tdClass: "adm-table-td"
         },
         {
           key: "name",
           label: "Nome",
           sortable: true,
-          thClass: "adm-table-th"
+          thClass: "adm-table-th",
+          tdClass: "adm-table-td"
         },
         {
           key: "email",
           label: "E-mail",
           sortable: true,
-          thClass: "adm-table-th"
+          thClass: "adm-table-th",
+          tdClass: "adm-table-td"
         },
         {
           key: "profiles",
           label: "Perfis",
           sortable: true,
-          thClass: "adm-table-th"
+          thClass: "adm-table-th",
+          tdClass: "adm-table-td"
         },
         {
           key: "allowedDivisionsDetails",
           label: "Unidades",
           sortable: true,
-          thClass: "adm-table-th"
+          thClass: "adm-table-th",
+          tdClass: "adm-table-td"
         },
         {
           key: "actions",
           label: "Ações",
           sortable: false,
           class: "text-center",
-          thClass: "adm-table-th"
+          thClass: "adm-table-th",
+          tdClass: "adm-table-td"
         }
       ]
     };
@@ -356,7 +359,7 @@ export default {
       }
 
       this.loadUsers();
-      
+
       if (doRefreshPage) {
         let msg = "Formulário pronto para nova inserção.";
         this.$router.push(`/admin/confirm?origin=users&msg=${msg}`);
@@ -382,4 +385,5 @@ export default {
 </script>
 
 <style>
+
 </style>

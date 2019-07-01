@@ -19,13 +19,11 @@ export default {
 <style>
 .page-title h1 {
   font-size: 1.2rem;
-  margin-left: 5px;
   color: white;
 }
 
 .page-title h2 {
   margin-top: 3px;
-  margin-left: 30px;
   font-size: 0.9rem;
   color: #ccc;
 }

@@ -3,20 +3,20 @@
         <div class="user-button">
             <span class="d-none d-sm-block">{{ user.name }}</span>
             <div class="user-dropdown-img">
-                <div class="avatar">
-                    {{ user.name.charAt(0) }}
-                </div>
+                <Gravatar :email="user.email" alt="User" />
             </div>
             <i class="fa fa-angle-down"></i>
         </div>
         <div class="user-dropdown-content">
+            <router-link to="/admin" v-if="user.admin">
+                <i class="fa fa-cogs"></i> Administração
+            </router-link>
             <a href @click.prevent="logout"><i class="fa fa-sign-out"></i> Sair</a>
         </div>
     </div>
 </template>
 
 <script>
-
 import { userKey } from '@/global'
 import { mapState } from 'vuex'
 import Gravatar from 'vue-gravatar'
@@ -29,10 +29,9 @@ export default {
         logout() {
             localStorage.removeItem(userKey)
             this.$store.commit('setUser', null)
-            this.$router.push({ name: 'auth'})
+            this.$router.push({ name: 'auth' })
         }
     }
-    
 }
 </script>
 
@@ -98,16 +97,5 @@ export default {
         text-decoration: none;
         color: #000;
         background-color: #EDEDED;
-    }
-
-    .avatar {
-        width: 35px;
-        height: 35px;
-        background-color: rgba(255, 255, 255, 0.158);
-        color: rgba(255, 255, 255, 0.774);
-        border-radius: 50px;
-        text-align: center;
-        font-size: 22px;
-
     }
 </style>

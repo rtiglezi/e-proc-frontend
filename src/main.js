@@ -7,14 +7,18 @@ import "./config/msgs";
 import "./config/axios";
 
 import App from "./App";
-import pt_BR from 'vee-validate/dist/locale/pt_BR';
+import pt_BR from "vee-validate/dist/locale/pt_BR";
 
 import store from "./config/store";
 import router from "./config/router";
 
+import VueSidebarMenu from "vue-sidebar-menu";
+import 'vue-sidebar-menu/dist/vue-sidebar-menu.css'
+
+Vue.use(VueSidebarMenu);
 
 Vue.use(VeeValidate, {
-  locale: 'pt_BR',
+  locale: "pt_BR",
   dictionary: {
     pt_BR: pt_BR
   }

@@ -1,38 +1,31 @@
 <template>
   <header class="header">
-    <a class="toggle" @click="toggleMenu" v-if="!hideToggle">
-      <i class="fa fa-lg" :class="icon"></i>
-    </a>
+    <MenuDropdown v-if="!hideUserDropdown" />
 
-    <h1 class="title">
-      <router-link to="/">{{ title }}</router-link>
-    </h1>
+    <span class="title">
+      <MenuLogo v-if="!hideUserDropdown" />
+    </span>
 
-    <UserDropdown v-if="!hideUserDropdown"/>
+    <UserDropdown v-if="!hideUserDropdown" />
   </header>
 </template>
 
 <script>
 import UserDropdown from "./UserDropdown";
+import MenuDropdown from "./MenuDropdown";
+import MenuLogo from "./MenuLogo";
 
 export default {
   name: "Header",
-  components: { UserDropdown },
+  components: { UserDropdown, MenuDropdown, MenuLogo },
   props: {
     title: String,
     hideToggle: Boolean,
     hideUserDropdown: Boolean
   },
-  computed: {
-    icon() {
-      return this.$store.state.isMenuVisible
-        ? "fa fa-folder-open-o"
-        : "fa fa-folder-o";
-    }
-  },
   methods: {
-    toggleMenu() {
-      this.$store.commit("toggleMenu");
+    navigate(link) {
+      this.$router.push(link);
     }
   }
 };
@@ -42,44 +35,95 @@ export default {
 .header {
   grid-area: header;
   display: flex;
-  justify-content: ri;
+  justify-content: center;
   align-items: center;
   background-image: linear-gradient(to bottom, #232f3e 92%, #e38c2e 8%);
 }
 
 .title {
-  font-size: 1.3rem;
-  color: white;
-  font-weight: bold;
   flex-grow: 1;
   text-align: left;
-  margin-left: 10px;
+  height: 60px;
 }
 
-.title a {
-  color: white;
-  text-decoration: none;
-}
-
-.title a:hover {
-  color: white;
-  text-decoration: none;
-}
-
-header.header > a.toggle {
-  width: 60px;
+.menu-dropdown {
+  position: relative;
   height: 100%;
-  color: white;
-  justify-self: flex-start;
-  text-decoration: none;
+}
+
+.menu-button {
+  display: flex;
+  align-items: center;
+  color: #fff;
+  font-weight: 100;
+  height: 100%;
+  padding: 0px 10px;
+}
+
+.menu-dropdown:hover {
+  background-color: rgba(0, 0, 0, 0.2);
+}
+
+.menu-dropdown-img {
+  margin: 0px 10px;
+}
+
+.menu-dropdown-img > img {
+  max-height: 37px;
+  border-radius: 5px;
+}
+
+.menu-dropdown-content {
+  position: absolute;
+  background-color: #f9f9f9;
+  min-width: 170px;
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+  padding: 10px;
+  z-index: 1;
 
   display: flex;
-  justify-content: center;
-  align-items: center;
+  flex-direction: column;
+  flex-wrap: wrap;
+
+  visibility: hidden;
+  opacity: 0;
+  transition: visibility 0s, opacity 0.5s linear;
 }
 
-header.header > a.toggle:hover {
-  color: #e38c2e;
-  cursor: pointer;
+.menu-dropdown:hover .menu-dropdown-content {
+  visibility: visible;
+  opacity: 1;
+}
+
+.menu-dropdown-content a {
+  text-decoration: none;
+  color: #000;
+  padding: 10px;
+}
+
+.menu-dropdown-content a:hover {
+  text-decoration: none;
+  color: #000;
+  background-color: #ededed;
+}
+
+.avatar {
+  width: 35px;
+  height: 35px;
+  background-color: rgba(255, 255, 255, 0.158);
+  color: rgba(255, 255, 255, 0.774);
+  border-radius: 50px;
+  text-align: center;
+  font-size: 22px;
+}
+.menu-menu {
+  color: rgba(255, 255, 255, 0.774);
+  text-align: center;
+  font-size: 22px;
+}
+.menu-logo {
+  color: white;
+  text-align: center;
+  font-size: 22px;
 }
 </style>

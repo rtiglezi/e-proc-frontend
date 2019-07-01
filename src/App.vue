@@ -1,7 +1,6 @@
 <template>
-  <div id="app" :class="{'hide-menu': !isMenuVisible || !user}">
+  <div id="app">
     <Header title="[e-Proc 2]" :hideToggle="!user" :hideUserDropdown="!user"/>
-    <Menu v-if="user"/>
     <Loading v-if="validatingToken"/>
     <Content v-else/>
     <Footer/>
@@ -13,14 +12,13 @@
 import { userKey } from "@/global";
 import { mapState } from "vuex";
 import Header from "@/components/template/Header";
-import Menu from "@/components/template/Menu";
 import Content from "@/components/template/Content";
 import Footer from "@/components/template/Footer";
 import Loading from "@/components/template/Loading";
 
 export default {
   name: "App",
-  components: { Header, Menu, Content, Footer, Loading },
+  components: { Header, Content, Footer, Loading },
   computed: mapState(["isMenuVisible", "user"]),
   data: function() {
     return {
@@ -59,47 +57,32 @@ export default {
 }
 
 body {
-  margin: 0;
+  margin-left: 0;
 }
 
 #app {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-
   height: 100vh;
   display: grid;
   grid-template-rows: 60px 1fr 20px;
-  grid-template-columns: 200px 1fr;
+  grid-template-columns: 1fr;
   grid-template-areas:
-    "header header"
-    "menu content"
-    "menu footer";
-}
-
-#app.hide-menu {
-  grid-template-areas:
-    "header header"
-    "content content"
-    "footer footer";
-}
-
-#app.hide-menu {
-  grid-template-areas:
-    "header header"
-    "content content"
-    "footer footer";
+    "header"
+    "content"
+    "footer";
 }
 
 .adm-box {
-  background-color: rgba(255, 255, 255, 0.1);
-  color: rgba(255, 255, 255, 0.8);
+  background-color: white;
+  color: #222;
 }
 .adm-box-ico {
-  color: rgba(255, 255, 255, 0.5);
+  color: #5A6268;
   text-align: center;
 }
 .adm-box-table {
-  color: #222;
+  color: #5A6268;
 }
 .adm-msg-error {
   margin-left: 5px;
@@ -126,8 +109,15 @@ body {
   color: white;
 }
 .adm-table-th {
-  background-color: #46505c;
+  background-color: #e38c2e;
   color: white;
 }
+.adm-table-td {
+  background-color: white;
+  color: black;
+  font-size: 15px;
+}
+
+
 </style>
 

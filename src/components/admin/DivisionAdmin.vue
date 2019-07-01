@@ -77,15 +77,13 @@
         </b-col>
       </b-row>
 
-      <b-card class="adm-box-table mt-2 mb-2">
         <b-table
+          class="mt-3"
           id="my-table"
           :items="divisions"
           :per-page="perPage"
           :current-page="currentPage"
           small
-          hover
-          striped
           responsive
           bordered
           :filter="filter"
@@ -102,8 +100,7 @@
             </b-button>
           </template>
         </b-table>
-      </b-card>
-
+ 
       <b-row>
         <b-col>
           <b-button @click="showCad = true">
@@ -155,14 +152,17 @@ export default {
           label: "Código",
           sortable: true,
           thClass: "adm-table-th",
+          tdClass: "adm-table-td"
         },
-        { key: "name", label: "Nome", sortable: true,   thClass: "adm-table-th" },
+        { key: "name", label: "Nome", sortable: true,   thClass: "adm-table-th",
+          tdClass: "adm-table-td" },
         {
           key: "actions",
           label: "Ações",
           sortable: false,
           class: "text-center",
-          thClass: "adm-table-th"
+          thClass: "adm-table-th",
+          tdClass: "adm-table-td"
         }
       ]
     };

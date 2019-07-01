@@ -1,4 +1,5 @@
 <template>
+
   <aside class="menu" v-show="isMenuVisible">
     <div id="cssmenu">
       <ul v-if="isAdmin">
@@ -40,10 +41,10 @@ import { mapState } from "vuex";
 export default {
   name: "Menu",
   computed: mapState(["isMenuVisible"]),
-  data: function(){
+  data: function() {
     return {
       isAdmin: false
-      }; 
+    };
   },
   methods: {
     navigate(link) {
@@ -51,9 +52,9 @@ export default {
     }
   },
   mounted() {
-    const json = localStorage.getItem(userKey)
-    const user = JSON.parse(json)
-    this.isAdmin = (user.profiles.indexOf("admin") != -1)
+    const json = localStorage.getItem(userKey);
+    const user = JSON.parse(json);
+    this.isAdmin = user.profiles.indexOf("admin") != -1;
   }
 };
 </script>
@@ -61,7 +62,7 @@ export default {
 <style>
 .menu {
   grid-area: menu;
-  background: #232f3e;
+  background: #686c70;
   display: flex;
   flex-direction: column;
   flex-wrap: wrap;
