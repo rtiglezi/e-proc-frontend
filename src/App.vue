@@ -73,12 +73,18 @@ body {
     "footer";
 }
 
+.adm-box-out {
+  background-color: #eee;
+  color: black;
+  font-weight: 300;
+}
 .adm-box {
-  background-color: white;
-  color: #222;
+  background-color: #CCCCCC;
+  color: black;
+  font-weight: 300;
 }
 .adm-box-ico {
-  color: #5A6268;
+  color: #808080;
   text-align: center;
 }
 .adm-box-table {
@@ -109,13 +115,26 @@ body {
   color: white;
 }
 .adm-table-th {
-  background-color: #e38c2e;
-  color: white;
+  background-color: rgb( 143, 192, 223);
+  color: #333;
+  font-weight: 100;
 }
 .adm-table-td {
   background-color: white;
   color: black;
   font-size: 15px;
+}
+
+.adm-layer-total {
+  background-color: #006999;
+  color: #333;
+  text-align: center;
+  font-weight: 100;
+  color: white;
+}
+
+.adm-input-text {
+  border:1px solid #aaa;
 }
 
 

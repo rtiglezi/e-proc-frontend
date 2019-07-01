@@ -1,23 +1,59 @@
 <template>
-  <header class="header">
-    <MenuDropdown v-if="!hideUserDropdown" />
+  <div class="header">
+    <b-navbar toggleable="lg" type="dark" class="header-nav">
+      <b-navbar-brand href="#" class="header-title">[e-Proc2]</b-navbar-brand>
 
-    <span class="title">
-      <MenuLogo v-if="!hideUserDropdown" />
-    </span>
+      <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
 
-    <UserDropdown v-if="!hideUserDropdown" />
-  </header>
+      <b-collapse id="nav-collapse" is-nav>
+        <b-navbar-nav>
+          <b-nav-item-dropdown text="Processos">
+            <b-dropdown-item href="#">Cadastrar</b-dropdown-item>
+            <b-dropdown-item href="#">Estatísticas</b-dropdown-item>
+          </b-nav-item-dropdown>
+        </b-navbar-nav>
+
+        <b-navbar-nav>
+          <b-nav-item-dropdown text="Administração">
+            <b-dropdown-item href="#" @click="navigate('/admin/users')">
+              <i class="fa fa-users mr-1" style="color:orange"></i>Usuários
+            </b-dropdown-item>
+            <b-dropdown-item href="#" @click="navigate('/admin/divisions')">
+              <i class="fa fa-sitemap mr-1" style="color:orange"></i>Unidades
+            </b-dropdown-item>
+          </b-nav-item-dropdown>
+        </b-navbar-nav>
+
+        <!-- Right aligned nav items -->
+        <b-navbar-nav class="ml-auto">
+          <b-nav-form class="mr-5">
+            <b-form-input size="sm" class="mr-sm-2" placeholder="Search"></b-form-input>
+            <b-button variant="dark" size="sm" class="my-2 my-sm-0" type="submit">Search</b-button>
+          </b-nav-form>
+
+          <b-nav-item-dropdown right>
+            <!-- Using 'button-content' slot -->
+            <template slot="button-content">
+              <i class="fa fa-user mr-1" style="color:orange"></i>
+              {{ user.name }}
+            </template>
+            <b-dropdown-item href="#" @click="logout()">
+              <i class="fa fa-sign-out" style="color:#555"></i> Sair
+            </b-dropdown-item>
+          </b-nav-item-dropdown>
+        </b-navbar-nav>
+      </b-collapse>
+    </b-navbar>
+  </div>
 </template>
 
 <script>
-import UserDropdown from "./UserDropdown";
-import MenuDropdown from "./MenuDropdown";
-import MenuLogo from "./MenuLogo";
-
+import { userKey } from "@/global";
+import { mapState } from "vuex";
 export default {
   name: "Header",
-  components: { UserDropdown, MenuDropdown, MenuLogo },
+  components: {},
+  computed: mapState(["user"]),
   props: {
     title: String,
     hideToggle: Boolean,
@@ -26,6 +62,11 @@ export default {
   methods: {
     navigate(link) {
       this.$router.push(link);
+    },
+    logout() {
+      localStorage.removeItem(userKey);
+      this.$store.commit("setUser", null);
+      this.$router.push({ name: "auth" });
     }
   }
 };
@@ -33,97 +74,13 @@ export default {
 
 <style>
 .header {
-  grid-area: header;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-image: linear-gradient(to bottom, #232f3e 92%, #e38c2e 8%);
+  background-color: #ccc;
 }
-
-.title {
-  flex-grow: 1;
-  text-align: left;
-  height: 60px;
+.header-nav {
+  z-index: 2;
+  background-color: #006999;
 }
-
-.menu-dropdown {
-  position: relative;
-  height: 100%;
-}
-
-.menu-button {
-  display: flex;
-  align-items: center;
-  color: #fff;
-  font-weight: 100;
-  height: 100%;
-  padding: 0px 10px;
-}
-
-.menu-dropdown:hover {
-  background-color: rgba(0, 0, 0, 0.2);
-}
-
-.menu-dropdown-img {
-  margin: 0px 10px;
-}
-
-.menu-dropdown-img > img {
-  max-height: 37px;
-  border-radius: 5px;
-}
-
-.menu-dropdown-content {
-  position: absolute;
-  background-color: #f9f9f9;
-  min-width: 170px;
-  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
-  padding: 10px;
-  z-index: 1;
-
-  display: flex;
-  flex-direction: column;
-  flex-wrap: wrap;
-
-  visibility: hidden;
-  opacity: 0;
-  transition: visibility 0s, opacity 0.5s linear;
-}
-
-.menu-dropdown:hover .menu-dropdown-content {
-  visibility: visible;
-  opacity: 1;
-}
-
-.menu-dropdown-content a {
-  text-decoration: none;
-  color: #000;
-  padding: 10px;
-}
-
-.menu-dropdown-content a:hover {
-  text-decoration: none;
-  color: #000;
-  background-color: #ededed;
-}
-
-.avatar {
-  width: 35px;
-  height: 35px;
-  background-color: rgba(255, 255, 255, 0.158);
-  color: rgba(255, 255, 255, 0.774);
-  border-radius: 50px;
-  text-align: center;
-  font-size: 22px;
-}
-.menu-menu {
-  color: rgba(255, 255, 255, 0.774);
-  text-align: center;
-  font-size: 22px;
-}
-.menu-logo {
-  color: white;
-  text-align: center;
-  font-size: 22px;
+.header-title {
+  font-weight: bold;
 }
 </style>

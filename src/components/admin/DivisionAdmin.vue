@@ -1,39 +1,41 @@
 <template>
   <div class="division-admin">
     <PageTitle
-      icon="fa fa-sitemap fa-1x"
+      icon="fa fa-sitemap"
       main="Cadastro de Unidades"
       sub="Área administrativa de acesso restrito"
     />
 
     <!-- INICIO FORMULÁRIO DE CADASTRO -->
     <b-form v-if="showCad" v-on:submit.prevent="onSubmit" v-on:keyup.enter="submitByKey">
-      <b-card class="adm-box mb-2">
-        <b-row>
-          <b-col md="3" sm="12" class="adm-box-ico">
-            <i class="fa fa-sitemap fa-5x" aria-hidden="true"></i>
-            <br>Dados cadastrais da
-            <br>UNIDADE
-          </b-col>
-          <b-col md="9" sm="12">
-            <b-form-group label="Nome *" label-for="divisionName">
-              <b-form-input
-                ref="divisionName"
-                name="Nome"
-                id="divisionName"
-                class="classOrange"
-                v-model="division.name"
-                :readonly="mode === 'remove'"
-                v-validate="{ required: true, min: 3 }"
-              ></b-form-input>
-              <span
-                ref="spnNome"
-                v-if="showSpanError('Nome')"
-                class="adm-msg-error"
-              >{{ errors.first('Nome') }}</span>
-            </b-form-group>
-          </b-col>
-        </b-row>
+      <b-card class="mb-3 adm-box-out">
+        <b-card class="adm-box">
+          <b-row>
+            <b-col md="3" sm="12" class="adm-box-ico">
+              <i class="fa fa-sitemap fa-5x" aria-hidden="true"></i>
+              <br />Dados cadastrais da
+              <br />UNIDADE
+            </b-col>
+            <b-col md="9" sm="12">
+              <b-form-group label="Nome *" label-for="divisionName">
+                <b-form-input
+                  class="adm-input-text"
+                  ref="divisionName"
+                  name="Nome"
+                  id="divisionName"
+                  v-model="division.name"
+                  :readonly="mode === 'remove'"
+                  v-validate="{ required: true, min: 3 }"
+                ></b-form-input>
+                <span
+                  ref="spnNome"
+                  v-if="showSpanError('Nome')"
+                  class="adm-msg-error"
+                >{{ errors.first('Nome') }}</span>
+              </b-form-group>
+            </b-col>
+          </b-row>
+        </b-card>
       </b-card>
 
       <div class="text-right">
@@ -63,10 +65,8 @@
 
     <!-- INÍCIO DA LISTA -->
     <div v-if="!showCad">
-      <b-row>
-        <b-col>
-          <div class="text-center">Total de {{ totalRows }} registro(s)</div>
-        </b-col>
+      <b-row class="mb-2">
+        <b-col></b-col>
         <b-col>
           <b-input-group>
             <b-form-input small ref="txtFilter" v-model="filter" placeholder="Busca rápida ..."></b-form-input>
@@ -77,30 +77,31 @@
         </b-col>
       </b-row>
 
-        <b-table
-          class="mt-3"
-          id="my-table"
-          :items="divisions"
-          :per-page="perPage"
-          :current-page="currentPage"
-          small
-          responsive
-          bordered
-          :filter="filter"
-          :fields="fields"
-          @filtered="onFiltered"
-        >
-          <template slot="actions" slot-scope="data">
-            <b-button @click="loadDivision(data.item, 'edit')">
-              <i class="fa fa-pencil" title="Editar o registro."></i>
-            </b-button>
+      <div class="adm-layer-total">Total de {{ totalRows }} registro(s)</div>
 
-            <b-button variant="danger" class="ml-1" @click="loadDivision(data.item, 'remove')">
-              <i class="fa fa-trash" title="Excluir o registro."></i>
-            </b-button>
-          </template>
-        </b-table>
- 
+      <b-table
+        id="my-table"
+        :items="divisions"
+        :per-page="perPage"
+        :current-page="currentPage"
+        small
+        responsive
+        bordered
+        :filter="filter"
+        :fields="fields"
+        @filtered="onFiltered"
+      >
+        <template slot="actions" slot-scope="data">
+          <b-button @click="loadDivision(data.item, 'edit')">
+            <i class="fa fa-pencil" title="Editar o registro."></i>
+          </b-button>
+
+          <b-button variant="danger" class="ml-1" @click="loadDivision(data.item, 'remove')">
+            <i class="fa fa-trash" title="Excluir o registro."></i>
+          </b-button>
+        </template>
+      </b-table>
+
       <b-row>
         <b-col>
           <b-button @click="showCad = true">
@@ -154,8 +155,13 @@ export default {
           thClass: "adm-table-th",
           tdClass: "adm-table-td"
         },
-        { key: "name", label: "Nome", sortable: true,   thClass: "adm-table-th",
-          tdClass: "adm-table-td" },
+        {
+          key: "name",
+          label: "Nome",
+          sortable: true,
+          thClass: "adm-table-th",
+          tdClass: "adm-table-td"
+        },
         {
           key: "actions",
           label: "Ações",
@@ -172,7 +178,7 @@ export default {
       const url = `${baseApiUrl}/divisions`;
       axios.get(url).then(res => {
         this.divisions = res.data;
-      })
+      });
     },
     loadDivision(division, mode) {
       this.mode = mode;

@@ -1,100 +1,104 @@
 <template>
   <div class="user-admin">
     <PageTitle
-      icon="fa fa-users fa-1x"
+      icon="fa fa-users"
       main="Cadastro de Usuários"
       sub="Área administrativa de acesso restrito"
     />
 
     <!-- INICIO FORMULÁRIO DE CADASTRO -->
     <b-form v-if="showCad" v-on:submit.prevent="onSubmit" v-on:keyup.enter="submitByKey">
-      <b-card class="adm-box mb-2">
-        <b-row>
-          <b-col md="3" sm="12" class="adm-box-ico">
-            <i class="fa fa-users fa-5x" aria-hidden="true"></i>
-            <br />Dados Cadastrais do
-            <br />USUÁRIO
-          </b-col>
-          <b-col md="9" sm="12">
-            <b-form-group label="Nome *" label-for="userName">
-              <b-form-input
-                ref="userName"
-                name="Nome"
-                id="userName"
-                class="classOrange"
-                v-model="user.name"
-                :readonly="mode === 'remove'"
-                v-validate="{ required: true, min: 3 }"
-              ></b-form-input>
-              <span
-                ref="spnNome"
-                v-if="showSpanError('Nome')"
-                class="adm-msg-error"
-              >{{ errors.first('Nome') }}</span>
-            </b-form-group>
+      <b-card class="mb-2 adm-box-out">
+        <b-card class="adm-box">
+          <b-row>
+            <b-col md="3" sm="12" class="adm-box-ico">
+              <i class="fa fa-users fa-5x" aria-hidden="true"></i>
+              <br />Dados Cadastrais do
+              <br />USUÁRIO
+            </b-col>
+            <b-col md="9" sm="12">
+              <b-form-group label="Nome *" label-for="userName">
+                <b-form-input
+                  ref="userName"
+                  name="Nome"
+                  id="userName"
+                  class="adm-input-text"
+                  v-model="user.name"
+                  :readonly="mode === 'remove'"
+                  v-validate="{ required: true, min: 3 }"
+                ></b-form-input>
+                <span
+                  ref="spnNome"
+                  v-if="showSpanError('Nome')"
+                  class="adm-msg-error"
+                >{{ errors.first('Nome') }}</span>
+              </b-form-group>
 
-            <b-form-group label="E-mail *" label-for="user-email">
-              <b-form-input
-                class="form-control"
-                prepend="@"
-                name="E-mail"
-                id="user-email"
-                v-model="user.email"
-                :readonly="mode === 'remove'"
-                v-validate="'required|email'"
-              ></b-form-input>
-              <span
-                v-if="showSpanError('E-mail')"
-                class="adm-msg-error"
-              >{{ errors.first('E-mail') }}</span>
-            </b-form-group>
-          </b-col>
-        </b-row>
+              <b-form-group label="E-mail *" label-for="user-email">
+                <b-form-input
+                  class="adm-input-text"
+                  prepend="@"
+                  name="E-mail"
+                  id="user-email"
+                  v-model="user.email"
+                  :readonly="mode === 'remove'"
+                  v-validate="'required|email'"
+                ></b-form-input>
+                <span
+                  v-if="showSpanError('E-mail')"
+                  class="adm-msg-error"
+                >{{ errors.first('E-mail') }}</span>
+              </b-form-group>
+            </b-col>
+          </b-row>
+        </b-card>
       </b-card>
 
-      <b-card class="adm-box mb-2">
-        <b-row>
-          <b-col md="3" sm="12" class="adm-box-ico">
-            <i class="fa fa-key fa-5x" aria-hidden="true"></i>
-            <br />Pefis e
-            <br />Permissões
-          </b-col>
+      <b-card class="mb-3 adm-box-out">
+        <b-card class="adm-box">
+          <b-row>
+            <b-col md="3" sm="12" class="adm-box-ico">
+              <i class="fa fa-key fa-5x" aria-hidden="true"></i>
+              <br />Pefis e
+              <br />Permissões
+            </b-col>
 
-          <b-col md="4" sm="12">
-            <b-form-group label="Perfis do usuário:" label-for="user-profiles">
-              <b-form-checkbox-group
-                stacked
-                id="user-profiles"
-                v-model="user.profiles"
-                name="profiles"
-              >
-                <b-form-checkbox disabled value="user">user</b-form-checkbox>
-                <b-form-checkbox :disabled="mode === 'remove'" value="admin">admin</b-form-checkbox>
-                <b-form-checkbox :disabled="mode === 'remove'" value="master">master</b-form-checkbox>
-              </b-form-checkbox-group>
-            </b-form-group>
-          </b-col>
+            <b-col md="4" sm="12">
+              <b-form-group label="Perfis do usuário:" label-for="user-profiles">
+                <b-form-checkbox-group
+                  stacked
+                  id="user-profiles"
+                  v-model="user.profiles"
+                  name="profiles"
+                >
+                  <b-form-checkbox  disabled value="user">user</b-form-checkbox>
+                  <b-form-checkbox :disabled="mode === 'remove'" value="admin">admin</b-form-checkbox>
+                  <b-form-checkbox :disabled="mode === 'remove'" value="master">master</b-form-checkbox>
+                </b-form-checkbox-group>
+              </b-form-group>
+            </b-col>
 
-          <b-col md="4" sm="12">
-            <b-form-group
-              label="Unidades a que este usuário tem acesso:"
-              label-for="user-allowedDivisions"
-            >
-              <b-form-checkbox-group
-                stacked
-                id="user-allowedDivisions"
-                v-model="user.allowedDivisions"
-                name="divisions"
+            <b-col md="4" sm="12">
+              <b-form-group
+                label="Unidades a que este usuário tem acesso:"
+                label-for="user-allowedDivisions"
               >
-                <b-form-checkbox
-                  v-for="division in divisions"
-                  :key="division._id"
-                  :value="division._id"
-                >{{ division.name }}</b-form-checkbox>
-              </b-form-checkbox-group>
-            </b-form-group>
-          </b-col>
-        </b-row>
+                <b-form-checkbox-group
+                  stacked
+                  id="user-allowedDivisions"
+                  v-model="user.allowedDivisions"
+                  name="divisions"
+                >
+                  <b-form-checkbox
+                    v-for="division in divisions"
+                    :key="division._id"
+                    :value="division._id"
+                  >{{ division.name }}</b-form-checkbox>
+                </b-form-checkbox-group>
+              </b-form-group>
+            </b-col>
+          </b-row>
+        </b-card>
       </b-card>
 
       <div class="text-right">
@@ -124,10 +128,8 @@
 
     <!-- INÍCIO DA LISTA -->
     <div v-if="!showCad">
-      <b-row>
-        <b-col>
-          <div class="text-center">Total de {{ totalRows }} registro(s)</div>
-        </b-col>
+      <b-row class="mb-2">
+        <b-col></b-col>
         <b-col>
           <b-input-group>
             <b-form-input small ref="txtFilter" v-model="filter" placeholder="Busca rápida ..."></b-form-input>
@@ -138,8 +140,9 @@
         </b-col>
       </b-row>
 
+      <div class="adm-layer-total">Total de {{ totalRows }} registro(s)</div>
+
       <b-table
-        class="mt-3"
         id="my-table"
         :items="users"
         :per-page="perPage"
@@ -385,5 +388,4 @@ export default {
 </script>
 
 <style>
-
 </style>

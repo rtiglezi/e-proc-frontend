@@ -2,9 +2,8 @@
   <div class="page-title">
     <h1>
       <i v-if="icon" :class="icon"></i>
-      {{ main }}
+      {{ main }} <span class="page-subtitle">- {{sub}}</span>
     </h1>
-    <h2>{{ sub }}</h2>
     <hr>
   </div>
 </template>
@@ -19,13 +18,12 @@ export default {
 <style>
 .page-title h1 {
   font-size: 1.2rem;
-  color: white;
 }
 
-.page-title h2 {
+.page-subtitle {
   margin-top: 3px;
-  font-size: 0.9rem;
-  color: #ccc;
+  font-size: 1rem;
+  color: #555;
 }
 
 .page-title hr {
@@ -38,4 +36,5 @@ export default {
     rgba(120, 120, 120, 0)
   );
 }
+
 </style>
