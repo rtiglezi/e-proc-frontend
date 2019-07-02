@@ -1,7 +1,8 @@
 <template>
   <div class="auth-content">
     <div class="auth-modal">
-      <img src="@/assets/logo.png" width="200" alt="Logo">
+      <img src="@/assets/c-proc.png" alt="Logo" width="80" align="left">
+      <span class="auth-logo">ceproc</span>
       <hr>
       <div class="auth-title">Login</div>
       <input v-model="user.email" type="text" placeholder="E-mail">
@@ -62,6 +63,12 @@ export default {
   display: flex;
   flex-direction: column;
   align-items: center;
+}
+
+
+.auth-logo {
+  font-size: 1.5rem;
+  font-weight: bold;
 }
 
 .auth-title {

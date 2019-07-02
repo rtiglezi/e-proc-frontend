@@ -8,10 +8,10 @@
 
     <!-- INICIO FORMULÁRIO DE CADASTRO -->
     <b-form v-if="showCad" v-on:submit.prevent="onSubmit" v-on:keyup.enter="submitByKey">
-      <b-card class="mb-3 adm-box-out">
-        <b-card class="adm-box">
+      <b-card class="mb-3 box-out">
+        <b-card class="box">
           <b-row>
-            <b-col md="3" sm="12" class="adm-box-ico">
+            <b-col md="3" sm="12" class="box-ico">
               <i class="fa fa-sitemap fa-5x" aria-hidden="true"></i>
               <br />Dados cadastrais da
               <br />UNIDADE
@@ -19,7 +19,7 @@
             <b-col md="9" sm="12">
               <b-form-group label="Nome *" label-for="divisionName">
                 <b-form-input
-                  class="adm-input-text"
+                  class="input-text"
                   ref="divisionName"
                   name="Nome"
                   id="divisionName"
@@ -39,11 +39,11 @@
       </b-card>
 
       <div class="text-right">
-        <b-button class="adm-btn-main ml-2" v-if="mode === 'save'" @click="save">
+        <b-button class="btn-main ml-2" v-if="mode === 'save'" @click="save">
           <i class="fa fa-send fa-lg"></i>
           Inserir
         </b-button>
-        <b-button class="adm-btn-main ml-2" v-if="mode === 'edit'" @click="save">
+        <b-button class="btn-main ml-2" v-if="mode === 'edit'" @click="save">
           <i class="fa fa-pencil fa-lg"></i>
           Editar
         </b-button>
@@ -77,7 +77,7 @@
         </b-col>
       </b-row>
 
-      <div class="adm-layer-total">Total de {{ totalRows }} registro(s)</div>
+      <div class="layer-total">Total de {{ totalRows }} registro(s)</div>
 
       <b-table
         id="my-table"
@@ -91,6 +91,16 @@
         :fields="fields"
         @filtered="onFiltered"
       >
+        <template slot="created_at" slot-scope="row">
+          {{
+          (new Date(row.item.created_at).getDate().toString().length == 1) ? "0" + new Date(row.item.created_at).getDate() : new Date(row.item.created_at).getDate()
+          }}/{{
+          ((new Date(row.item.created_at).getMonth() + 1).toString().length == 1) ? "0" + (new Date(row.item.created_at).getMonth()+1) : (new Date(row.item.created_at).getMonth())+1
+          }}/{{
+          new Date(row.item.created_at).getFullYear()
+          }}
+        </template>
+
         <template slot="actions" slot-scope="data">
           <b-button @click="loadDivision(data.item, 'edit')">
             <i class="fa fa-pencil" title="Editar o registro."></i>
@@ -149,26 +159,26 @@ export default {
 
       fields: [
         {
-          key: "_id",
-          label: "Código",
+          key: "created_at",
+          label: "Cadastro",
           sortable: true,
-          thClass: "adm-table-th",
-          tdClass: "adm-table-td"
+          thClass: "table-th",
+          tdClass: "table-td"
         },
         {
           key: "name",
           label: "Nome",
           sortable: true,
-          thClass: "adm-table-th",
-          tdClass: "adm-table-td"
+          thClass: "table-th",
+          tdClass: "table-td"
         },
         {
           key: "actions",
           label: "Ações",
           sortable: false,
           class: "text-center",
-          thClass: "adm-table-th",
-          tdClass: "adm-table-td"
+          thClass: "table-th",
+          tdClass: "table-td"
         }
       ]
     };
@@ -200,7 +210,7 @@ export default {
           .then(() => {
             this.refresh();
           })
-          .catch(showError);
+          .catch();
       });
     },
     remove() {
@@ -279,4 +289,50 @@ export default {
 </script>
 
 <style>
+.division-admin .box-out {
+  background-color: rgba(6, 136, 23, 0.1);
+}
+
+.division-admin .box {
+  background-color: rgba(253, 253, 253, 0.9);
+  color: black;
+  font-weight: 300;
+}
+.division-admin .box-ico {
+  color: rgba(6, 136, 23, 0.8);
+  text-align: center;
+}
+
+.division-admin .btn-main {
+  background-color: rgba(6, 136, 23, 0.8);
+  color: white;
+}
+.division-admin .btn-main:hover {
+  background-color: rgba(6, 136, 23);
+  color: white;
+}
+
+.division-admin .table-th {
+  background-color: rgba(6, 136, 23, 0.5);
+  color: #333;
+  font-weight: 100;
+}
+.division-admin .table-td {
+  background-color: white;
+  color: black;
+  font-size: 15px;
+}
+
+.division-admin .layer-total {
+  background-color: rgb(6, 136, 23);
+  color: #333;
+  text-align: center;
+  font-weight: 100;
+  color: white;
+}
+
+.division-admin .input-text {
+  border:1px solid rgb(6, 136, 23);
+}
+
 </style>

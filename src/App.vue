@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <Header title="[e-Proc 2]" :hideToggle="!user" :hideUserDropdown="!user"/>
+    <Header title="[e-Proc 2]"/>
     <Loading v-if="validatingToken"/>
     <Content v-else/>
     <Footer/>
@@ -19,7 +19,7 @@ import Loading from "@/components/template/Loading";
 export default {
   name: "App",
   components: { Header, Content, Footer, Loading },
-  computed: mapState(["isMenuVisible", "user"]),
+  computed: mapState(["user"]),
   data: function() {
     return {
       validatingToken: true
@@ -65,7 +65,7 @@ body {
   -moz-osx-font-smoothing: grayscale;
   height: 100vh;
   display: grid;
-  grid-template-rows: 60px 1fr 20px;
+  grid-template-rows: 65px 1fr 20px;
   grid-template-columns: 1fr;
   grid-template-areas:
     "header"
@@ -73,23 +73,6 @@ body {
     "footer";
 }
 
-.adm-box-out {
-  background-color: #eee;
-  color: black;
-  font-weight: 300;
-}
-.adm-box {
-  background-color: #CCCCCC;
-  color: black;
-  font-weight: 300;
-}
-.adm-box-ico {
-  color: #808080;
-  text-align: center;
-}
-.adm-box-table {
-  color: #5A6268;
-}
 .adm-msg-error {
   margin-left: 5px;
   color: #6d630e;
@@ -106,37 +89,6 @@ body {
   padding-left: 20px;
   position: relative;
 }
-.adm-btn-main {
-  background-color: white;
-  color: #39485c;
-}
-.adm-btn-main:hover {
-  background-color: darkorange;
-  color: white;
-}
-.adm-table-th {
-  background-color: rgb( 143, 192, 223);
-  color: #333;
-  font-weight: 100;
-}
-.adm-table-td {
-  background-color: white;
-  color: black;
-  font-size: 15px;
-}
-
-.adm-layer-total {
-  background-color: #006999;
-  color: #333;
-  text-align: center;
-  font-weight: 100;
-  color: white;
-}
-
-.adm-input-text {
-  border:1px solid #aaa;
-}
-
 
 </style>
 

@@ -1,5 +1,5 @@
 <template>
-  <div class="page-title">
+  <div class="page-title text-center">
     <h1>
       <i v-if="icon" :class="icon"></i>
       {{ main }} <span class="page-subtitle">- {{sub}}</span>
@@ -17,12 +17,12 @@ export default {
 
 <style>
 .page-title h1 {
-  font-size: 1.2rem;
+  font-size: 0.95rem;
 }
 
 .page-subtitle {
   margin-top: 3px;
-  font-size: 1rem;
+  font-size: 0.9rem;
   color: #555;
 }
 
@@ -32,8 +32,9 @@ export default {
   height: 3px;
   background-image: linear-gradient(
     to right,
-    rgba(120, 120, 120, 0.5),
-    rgba(120, 120, 120, 0)
+    rgba(186, 149, 40, 0),
+    rgba(186, 149, 40, 0.75),
+    rgba(186, 149, 40, 0)
   );
 }
 

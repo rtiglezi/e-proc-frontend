@@ -8,10 +8,10 @@
 
     <!-- INICIO FORMULÁRIO DE CADASTRO -->
     <b-form v-if="showCad" v-on:submit.prevent="onSubmit" v-on:keyup.enter="submitByKey">
-      <b-card class="mb-2 adm-box-out">
-        <b-card class="adm-box">
+      <b-card class="mb-2 box-out">
+        <b-card class="box">
           <b-row>
-            <b-col md="3" sm="12" class="adm-box-ico">
+            <b-col md="3" sm="12" class="box-ico">
               <i class="fa fa-users fa-5x" aria-hidden="true"></i>
               <br />Dados Cadastrais do
               <br />USUÁRIO
@@ -22,7 +22,7 @@
                   ref="userName"
                   name="Nome"
                   id="userName"
-                  class="adm-input-text"
+                  class="input-text"
                   v-model="user.name"
                   :readonly="mode === 'remove'"
                   v-validate="{ required: true, min: 3 }"
@@ -36,7 +36,7 @@
 
               <b-form-group label="E-mail *" label-for="user-email">
                 <b-form-input
-                  class="adm-input-text"
+                  class="input-text"
                   prepend="@"
                   name="E-mail"
                   id="user-email"
@@ -54,10 +54,10 @@
         </b-card>
       </b-card>
 
-      <b-card class="mb-3 adm-box-out">
-        <b-card class="adm-box">
+      <b-card class="mb-3 box-out">
+        <b-card class="box">
           <b-row>
-            <b-col md="3" sm="12" class="adm-box-ico">
+            <b-col md="3" sm="12" class="box-ico">
               <i class="fa fa-key fa-5x" aria-hidden="true"></i>
               <br />Pefis e
               <br />Permissões
@@ -71,7 +71,7 @@
                   v-model="user.profiles"
                   name="profiles"
                 >
-                  <b-form-checkbox  disabled value="user">user</b-form-checkbox>
+                  <b-form-checkbox disabled value="user">user</b-form-checkbox>
                   <b-form-checkbox :disabled="mode === 'remove'" value="admin">admin</b-form-checkbox>
                   <b-form-checkbox :disabled="mode === 'remove'" value="master">master</b-form-checkbox>
                 </b-form-checkbox-group>
@@ -102,11 +102,11 @@
       </b-card>
 
       <div class="text-right">
-        <b-button class="adm-btn-main ml-2" v-if="mode === 'save'" @click="save">
+        <b-button class="btn-main ml-2" v-if="mode === 'save'" @click="save">
           <i class="fa fa-send fa-lg"></i>
           Inserir
         </b-button>
-        <b-button class="adm-btn-main ml-2" v-if="mode === 'edit'" @click="save">
+        <b-button class="btn-main ml-2" v-if="mode === 'edit'" @click="save">
           <i class="fa fa-pencil fa-lg"></i>
           Editar
         </b-button>
@@ -140,7 +140,7 @@
         </b-col>
       </b-row>
 
-      <div class="adm-layer-total">Total de {{ totalRows }} registro(s)</div>
+      <div class="layer-total">Total de {{ totalRows }} registro(s)</div>
 
       <b-table
         id="my-table"
@@ -154,6 +154,16 @@
         :fields="fields"
         @filtered="onFiltered"
       >
+        <template slot="created_at" slot-scope="row">
+          {{
+          (new Date(row.item.created_at).getDate().toString().length == 1) ? "0" + new Date(row.item.created_at).getDate() : new Date(row.item.created_at).getDate()
+          }}/{{
+          ((new Date(row.item.created_at).getMonth() + 1).toString().length == 1) ? "0" + (new Date(row.item.created_at).getMonth()+1) : (new Date(row.item.created_at).getMonth())+1
+          }}/{{
+          new Date(row.item.created_at).getFullYear()
+          }}
+        </template>
+
         <template slot="profiles" slot-scope="row">
           <ul>
             <li v-for="(value, key) in row.item.profiles" :key="key">{{ value }}</li>
@@ -233,44 +243,44 @@ export default {
           key: "created_at",
           label: "Cadastro",
           sortable: true,
-          thClass: "adm-table-th",
-          tdClass: "adm-table-td"
+          thClass: "table-th",
+          tdClass: "table-td"
         },
         {
           key: "name",
           label: "Nome",
           sortable: true,
-          thClass: "adm-table-th",
-          tdClass: "adm-table-td"
+          thClass: "table-th",
+          tdClass: "table-td"
         },
         {
           key: "email",
           label: "E-mail",
           sortable: true,
-          thClass: "adm-table-th",
-          tdClass: "adm-table-td"
+          thClass: "table-th",
+          tdClass: "table-td"
         },
         {
           key: "profiles",
           label: "Perfis",
           sortable: true,
-          thClass: "adm-table-th",
-          tdClass: "adm-table-td"
+          thClass: "table-th",
+          tdClass: "table-td"
         },
         {
           key: "allowedDivisionsDetails",
           label: "Unidades",
           sortable: true,
-          thClass: "adm-table-th",
-          tdClass: "adm-table-td"
+          thClass: "table-th",
+          tdClass: "table-td"
         },
         {
           key: "actions",
           label: "Ações",
           sortable: false,
           class: "text-center",
-          thClass: "adm-table-th",
-          tdClass: "adm-table-td"
+          thClass: "table-th",
+          tdClass: "table-td"
         }
       ]
     };
@@ -302,7 +312,7 @@ export default {
           .then(() => {
             this.refresh();
           })
-          .catch(showError);
+          .catch();
       });
     },
     remove() {
@@ -388,4 +398,51 @@ export default {
 </script>
 
 <style>
+
+.user-admin .box-out {
+  background-color: rgba(187, 146, 13, 0.1);
+}
+
+.user-admin .box {
+  background-color: rgba(253, 253, 253, 0.9);
+  color: black;
+  font-weight: 300;
+}
+.user-admin .box-ico {
+  color: rgba(187, 146, 13, 0.8);
+  text-align: center;
+}
+
+.user-admin .btn-main {
+  background-color: rgba(187, 146, 13, 0.8);
+  color: white;
+}
+.user-admin .btn-main:hover {
+  background-color: rgba(187, 146, 13);
+  color: white;
+}
+
+.user-admin .table-th {
+  background-color: rgba(187, 146, 13, 0.5);
+  color: #333;
+  font-weight: 100;
+}
+.user-admin .table-td {
+  background-color: white;
+  color: black;
+  font-size: 15px;
+}
+
+.user-admin .layer-total {
+  background-color: rgba(187, 146, 13);
+  color: #333;
+  text-align: center;
+  font-weight: 100;
+  color: white;
+}
+
+.user-admin .input-text {
+  border:1px solid rgba(187, 146, 13);
+}
+
 </style>
